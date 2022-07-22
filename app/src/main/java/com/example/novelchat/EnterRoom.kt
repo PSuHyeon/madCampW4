@@ -3,6 +3,7 @@ package com.example.novelchat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -21,6 +22,7 @@ class EnterRoom : AppCompatActivity() {
 
         val enter_button = findViewById<Button>(R.id.enterroom_button)
         val create_button = findViewById<Button>(R.id.makeroom_button)
+        val call_button = findViewById<Button>(R.id.callTest_button)
 
         val id_type = findViewById<EditText>(R.id.roomId_type)
 
@@ -36,6 +38,12 @@ class EnterRoom : AppCompatActivity() {
             else{
                 mSocket.emit("enter_room", text)
             }
+        }
+
+        call_button.setOnClickListener {
+            Log.d("button","call button clicked")
+            val intent = Intent(this, CallTest::class.java)
+            startActivity(intent)
         }
 
         mSocket.on("create_room", Emitter.Listener {args ->
