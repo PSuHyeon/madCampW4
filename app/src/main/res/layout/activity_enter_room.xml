@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnterRoom"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="방 번호를 입력하세요"
+        android:layout_margin="30dp"
+        android:id="@+id/roomId_type"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="방 만들기"
+            android:id="@+id/makeroom_button"
+            android:layout_marginRight="15dp"
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="방 입장"
+            android:id="@+id/enterroom_button"
+            android:layout_marginLeft="15dp"
+            />
+
+    </LinearLayout>
+</LinearLayout>
