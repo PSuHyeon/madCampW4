@@ -15,6 +15,7 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.TextView
 import java.lang.Exception
+import io.agora.rtc.models.ChannelMediaOptions
 
 class CallTest : AppCompatActivity(), RecognitionListener {
     private val PERMISSION_REQ_ID_RECORD_AUDIO = 22
@@ -27,6 +28,7 @@ class CallTest : AppCompatActivity(), RecognitionListener {
     // Fill the temp token generated on Agora Console.
     private val TOKEN = "006f87f901b9b6c4a6aa4b2bdf5edea1331IABIDxQWYqCRjQgAZKiLYt8dsPkd6sGEF8+0k4oJhbSLTSjSI9sAAAAAEAAtDEjTvxrcYgEAAQC+Gtxi"
     private var mRtcEngine: RtcEngine ?= null
+    private var mChannelMediaOptions: ChannelMediaOptions = ChannelMediaOptions();
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
     }
     private var speech: SpeechRecognizer? = null
@@ -64,8 +66,13 @@ class CallTest : AppCompatActivity(), RecognitionListener {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
         }
+//        mChannelMediaOptions!!.publishLocalAudio = true
+//        mChannelMediaOptions!!.publishLocalVideo = true
+//        mChannelMediaOptions!!.autoSubscribeAudio = true
+//        mChannelMediaOptions!!.autoSubscribeVideo = true
+//        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0, mChannelMediaOptions)
         var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0)
-
+        Log.d("errCode", errCode.toString())
     }
 
     fun clear(view: android.view.View) {
