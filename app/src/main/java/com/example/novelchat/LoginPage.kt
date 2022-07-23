@@ -40,7 +40,8 @@ class LoginPage : AppCompatActivity() {
                         Log.d("check", it)
                         if (it == "success"){
 
-                            val intent = Intent(this, EnterRoom::class.java)
+                            val intent = Intent(this, friendsList::class.java)
+                            intent.putExtra("id", id_text.text.toString())
                             startActivity(intent)
                         }
                     }, Response.ErrorListener {
