@@ -8,6 +8,7 @@ import android.widget.*
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 
@@ -22,6 +23,37 @@ class Addfriend : AppCompatActivity() {
         val find_name = findViewById<TextView>(R.id.find_name)
         val find_context = findViewById<TextView>(R.id.find_context)
         val add_button = findViewById<Button>(R.id.find_add)
+        val find_id = findViewById<TextView>(R.id.find_id)
+
+        add_button.setOnClickListener {
+
+            if (find_id.text.toString() == "null"){
+                Toast.makeText(this,"No user found", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val queue = Volley.newRequestQueue(this)
+                val url = "http://192.249.18.125:80/addfriend/" + id + "," + find_id.text.toString()
+
+                val Request: StringRequest = object : StringRequest(
+                    Method.GET, url,
+                    Response.Listener {
+                        Toast.makeText(this, "successfully added to friend list", Toast.LENGTH_SHORT).show()
+                        finish()
+                    },
+                    Response.ErrorListener {  }
+                ) {
+
+                }
+
+                Request.retryPolicy = DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+
+                queue.add(Request)
+            }
+        }
 
 
         find_button.setOnClickListener {
@@ -47,9 +79,10 @@ class Addfriend : AppCompatActivity() {
                         Log.d("upload", "success")
 
                         if (it.getString("success") == "fail"){
-
+                            find_id.text = "null"
                         }
                         else{
+                            find_id.text = it.getString("id")
                             find_image.setImageBitmap(StringToBitmap(it.getString("image")))
                             find_name.text = it.getString("name")
                             find_context.text = it.getString("context")

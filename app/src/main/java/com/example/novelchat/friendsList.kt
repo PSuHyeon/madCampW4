@@ -41,6 +41,7 @@ class friendsList : AppCompatActivity() {
         val request = object : JsonArrayRequest(
             Request.Method.GET,
             url,null, Response.Listener {
+                Log.d("whyno", "" + it)
                 for (i in 0 until it.length()){
                     val jsonObject = it.getJSONObject(i)
                     val name = jsonObject.getString("name")
@@ -48,7 +49,10 @@ class friendsList : AppCompatActivity() {
                     val context = jsonObject.getString("context")
                     val id = jsonObject.getString("id")
                     friendList.add(friend(name, image!!, context, id))
+
                 }
+                friendListView.adapter = friendAdapter(this, friendList)
+                friendListView.layoutManager = LinearLayoutManager(this)
 
             }, Response.ErrorListener {
 
@@ -63,10 +67,9 @@ class friendsList : AppCompatActivity() {
             1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
         VolleySingleton.getInstance(this).addToRequestQueue(request)
-
-
         friendListView.adapter = friendAdapter(this, friendList)
         friendListView.layoutManager = LinearLayoutManager(this)
+
     }
 }
 
