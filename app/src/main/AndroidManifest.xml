@@ -5,6 +5,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--Voice Call-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <!-- Add the following permission on devices running Android 12.0 or later -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"  />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,7 +44,10 @@
         <activity
             android:name=".LoginPage"
             android:exported="true">
-
+        </activity>
+        <activity
+            android:name=".CallTest"
+            android:exported="true">
         </activity>
         <activity
             android:name=".ChatRoom"
