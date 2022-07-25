@@ -66,12 +66,12 @@ class CallTest : AppCompatActivity(), RecognitionListener {
             mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
         } catch (e: Exception) {
         }
-//        mChannelMediaOptions!!.publishLocalAudio = true
-//        mChannelMediaOptions!!.publishLocalVideo = true
-//        mChannelMediaOptions!!.autoSubscribeAudio = true
-//        mChannelMediaOptions!!.autoSubscribeVideo = true
-//        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0, mChannelMediaOptions)
-        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0)
+        mChannelMediaOptions!!.publishLocalAudio = false
+        mChannelMediaOptions!!.publishLocalVideo = false
+        mChannelMediaOptions!!.autoSubscribeAudio = true
+        mChannelMediaOptions!!.autoSubscribeVideo = true
+        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0, mChannelMediaOptions)
+//        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0)
         Log.d("errCode", errCode.toString())
     }
 
