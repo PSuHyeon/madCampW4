@@ -36,6 +36,9 @@ class NewChatRoom : AppCompatActivity() {
 
         mSocket.emit("enter_room", id + "," + your_id)
 
+        //voice chat
+        mSocket.emit("voice_chat", id + "," + your_id)
+
         send_edit.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 return
