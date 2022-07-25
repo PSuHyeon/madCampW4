@@ -7,43 +7,88 @@
     tools:context=".Signup"
     android:orientation="vertical"
     android:weightSum="10"
-    android:gravity="center"
-    >
 
-    <EditText
+    >
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:hint="id를 입력하세요"
-        android:id="@+id/signup_id"
-        android:layout_margin="10dp"
+        android:layout_weight="4"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/temp_pic"
         />
-    <EditText
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/upload"
+        android:id="@+id/upload"
+        />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="10dp"
-        android:inputType="textPassword"
-        android:hint="비밀번호를 입력하세요"
-        android:id="@+id/signup_pass"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="10dp"
-        android:hint="비밀번호를 다시 입력하세요"
-        android:id="@+id/signup_repass"
-        android:inputType="textPassword"
-        />
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="회원가입하기"
-        android:id="@+id/signup_confirm"
-        android:gravity="center"
-        android:layout_gravity="center"
-        />
+        android:layout_weight="5.5"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="id를 입력하세요"
+                android:id="@+id/signup_id"
+                android:layout_margin="10dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="이름을 입력하세요"
+                android:id="@+id/signup_name"
+                android:layout_margin="10dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:inputType="textPassword"
+                android:hint="비밀번호를 입력하세요"
+                android:id="@+id/signup_pass"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:hint="비밀번호를 다시 입력하세요"
+                android:id="@+id/signup_repass"
+                android:inputType="textPassword"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:id="@+id/signup_context"
+                android:hint="상태 메세지를 입력하세요"
+                />
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+
+                android:text="회원가입하기"
+                android:id="@+id/signup_confirm"
+                android:gravity="center"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+
+    </ScrollView>
+
 
 </LinearLayout>

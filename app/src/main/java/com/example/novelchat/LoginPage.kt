@@ -13,6 +13,7 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
@@ -34,15 +35,17 @@ class LoginPage : AppCompatActivity() {
             else{
                 val url = "http://192.249.18.125:80/login/" + id_text.text.toString() + "," + pass_text.text.toString()
 
-                val request = object : StringRequest(
+                val request = object : JsonObjectRequest(
                     Request.Method.GET,
-                    url, Response.Listener {
-                        Log.d("check", it)
-                        if (it == "success"){
+                    url, null, Response.Listener {
 
-                            val intent = Intent(this, EnterRoom::class.java)
+                            val intent = Intent(this, friendsList::class.java)
+                            intent.putExtra("id", it.getString("id"))
+                            myImage = StringToBitmap(it.getString("image"))!!
+                            intent.putExtra("context", it.getString("context"))
+                            intent.putExtra("name", it.getString("name"))
                             startActivity(intent)
-                        }
+
                     }, Response.ErrorListener {
 
                     }

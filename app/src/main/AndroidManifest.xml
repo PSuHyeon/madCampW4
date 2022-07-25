@@ -26,11 +26,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".NewChatRoom"
+            android:exported="false" />
+        <activity
+            android:name=".Addfriend"
+            android:exported="true"></activity>
+        <activity
+            android:name=".friendsList"
+            android:exported="false" />
+        <activity
             android:name=".Signup"
             android:exported="false" />
         <activity
             android:name=".LoginPage"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,16 +47,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".CallTest"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ChatRoom"
             android:exported="true" />
         <activity
             android:name=".EnterRoom"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".CallTest"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
