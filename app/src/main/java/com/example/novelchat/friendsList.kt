@@ -3,6 +3,7 @@ package com.example.novelchat
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +30,15 @@ class friendsList : AppCompatActivity() {
         val friendList = ArrayList<friend>()
         val add = findViewById<ImageView>(R.id.add_friend)
 
+        val my_pic = findViewById<ImageView>(R.id.my_pic)
+        val my_name = findViewById<TextView>(R.id.my_name)
+        val my_context = findViewById<TextView>(R.id.my_text)
+
+        my_pic.setImageBitmap(myImage)
+        my_name.text = intent.getStringExtra("name")
+        my_context.text = intent.getStringExtra("context")
+
+
         add.setOnClickListener {
             val intent = Intent(this, Addfriend::class.java)
             startActivityForResult(intent, 300)
@@ -41,7 +51,6 @@ class friendsList : AppCompatActivity() {
         val request = object : JsonArrayRequest(
             Request.Method.GET,
             url,null, Response.Listener {
-                Log.d("whyno", "" + it)
                 for (i in 0 until it.length()){
                     val jsonObject = it.getJSONObject(i)
                     val name = jsonObject.getString("name")
@@ -49,8 +58,8 @@ class friendsList : AppCompatActivity() {
                     val context = jsonObject.getString("context")
                     val id = jsonObject.getString("id")
                     friendList.add(friend(name, image!!, context, id))
-
                 }
+
                 friendListView.adapter = friendAdapter(this, friendList)
                 friendListView.layoutManager = LinearLayoutManager(this)
 
@@ -79,6 +88,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): friendAdapter.friendHolder {
         val view: View
         view = LayoutInflater.from(context).inflate(R.layout.friend_item,parent, false)
+
         return friendHolder(view)
     }
 
@@ -86,6 +96,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         holder.profile_image.setImageBitmap(array.get(position).image)
         holder.profile_name.text = array.get(position).name
         holder.profile_context.text = array.get(position).context
+        holder.profile_id.text = array.get(position).id
     }
 
     override fun getItemCount(): Int {
@@ -95,5 +106,16 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         val profile_image = itemView.findViewById<ImageView>(R.id.profile_pic)
         val profile_name = itemView.findViewById<TextView>(R.id.profile_name)
         val profile_context = itemView.findViewById<TextView>(R.id.profile_text)
+        val profile_id = itemView.findViewById<TextView>(R.id.profile_id)
+
+        init{
+            itemView.setOnClickListener {
+                com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()
+                val intent = Intent(context, NewChatRoom::class.java)
+                intent.putExtra("id1", profile_id.text.toString())
+                context.startActivity(intent)
+            }
+        }
+
     }
 }

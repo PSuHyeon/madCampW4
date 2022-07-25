@@ -17,9 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".NewChatRoom"
+            android:exported="false" />
+        <activity
             android:name=".Addfriend"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".friendsList"
             android:exported="false" />

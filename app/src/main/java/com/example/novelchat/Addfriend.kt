@@ -50,8 +50,11 @@ class Addfriend : AppCompatActivity() {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
-
+                if (enter_id.text.toString() != id)
                 queue.add(Request)
+                else{
+                    Toast.makeText(this, "나 자신은 영원한 인생의 친구입니다" , Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
