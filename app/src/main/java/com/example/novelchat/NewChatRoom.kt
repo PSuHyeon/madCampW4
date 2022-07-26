@@ -1,8 +1,13 @@
 package com.example.novelchat
 
 import android.content.Context
+import android.Manifest
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -23,8 +29,16 @@ import java.util.*
 
 lateinit var yourImage: Bitmap
 lateinit var myImage: Bitmap
-class NewChatRoom : AppCompatActivity() {
+class NewChatRoom : AppCompatActivity(), RecognitionListener {
+
+    private var speech: SpeechRecognizer? = null
+    private val TIMEOUT: Long = 1000
+    private var presstime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1);
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_chat_room)
 
@@ -34,6 +48,7 @@ class NewChatRoom : AppCompatActivity() {
         val yourprofile = findViewById<ImageView>(R.id.your_image)
         val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
+        val stt_button = findViewById<Button>(R.id.stt_button)
         val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         val your_id = intent.getStringExtra("id1")
@@ -112,6 +127,94 @@ class NewChatRoom : AppCompatActivity() {
 
 
         })
+
+    }
+
+    fun startRecognition(view: android.view.View) {
+        speech = SpeechRecognizer.createSpeechRecognizer(this);
+        speech?.setRecognitionListener(this);
+
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+
+        speech?.startListening(intent);
+    }
+
+    fun stopRecognition() {
+        //end of chat - confirm??
+        speech?.stopListening();
+    }
+
+    override fun onReadyForSpeech(params: Bundle?) {
+    }
+
+    override fun onRmsChanged(rmsdB: Float) {
+    }
+
+    override fun onBufferReceived(buffer: ByteArray?) {
+    }
+
+    override fun onPartialResults(partialResults: Bundle?) {
+        val matches = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+
+        val view = findViewById<TextView>(R.id.send_edit_text)
+        view.text = matches?.get(0)
+    }
+
+    override fun onResults(results: Bundle?) {
+        val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+
+        val view = findViewById<TextView>(R.id.send_edit_text)
+        view.text = matches?.get(0)
+        // 여기서 말풍선 보내기
+    }
+
+    override fun onEvent(eventType: Int, params: Bundle?) {
+    }
+
+    override fun onBeginningOfSpeech() {
+
+    }
+
+    override fun onEndOfSpeech() {
+        val view = findViewById<TextView>(R.id.send_edit_text)
+
+        speech?.stopListening();
+        Thread.sleep(500);
+        startRecognition(view);
+    }
+
+    override fun onError(error: Int) {
+        val message = getErrorText(error)
+    }
+
+    private fun getErrorText(errorCode: Int): String {
+        return when (errorCode) {
+            SpeechRecognizer.ERROR_AUDIO -> "ERROR_AUDIO"
+            SpeechRecognizer.ERROR_CLIENT -> "ERROR_CLIENT"
+            SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "ERROR_INSUFFICIENT_PERMISSIONS"
+            SpeechRecognizer.ERROR_NETWORK -> "ERROR_NETWORK"
+            SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "ERROR_NETWORK_TIMEOUT"
+            SpeechRecognizer.ERROR_NO_MATCH -> "ERROR_NO_MATCH"
+            SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "ERROR_RECOGNIZER_BUSY"
+            SpeechRecognizer.ERROR_SERVER -> "ERROR_SERVER"
+            SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "ERROR_SPEECH_TIMEOUT"
+            else -> "Didn't understand, please try again."
+        }
+    }
+
+    override fun onBackPressed() {
+        val tempTime = System.currentTimeMillis()
+        val intervalTime: Long = tempTime - presstime
+        if (intervalTime in 0..TIMEOUT) {
+            finish()
+        } else {
+            presstime = tempTime
+            stopRecognition()
+            Toast.makeText(applicationContext, "한번더 누르시면 대화가 종료됩니다", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 class chat(val name : String, val time : String, val text: String, val id: String)
