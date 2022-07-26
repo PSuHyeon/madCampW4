@@ -65,6 +65,7 @@
         android:orientation="horizontal"
         android:weightSum="10"
         >
+
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -72,10 +73,19 @@
             android:id="@+id/send_edit_text"
             android:hint="메세지를 입력하세요"
             />
+
+        <Button
+            android:id="@+id/stt_button"
+            android:onClick="startRecognition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="STT" />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="전송"
             android:id="@+id/send_button"
             />
