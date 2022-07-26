@@ -131,6 +131,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     }
 
     fun startRecognition(view: android.view.View) {
+
         speech = SpeechRecognizer.createSpeechRecognizer(this);
         speech?.setRecognitionListener(this);
 
