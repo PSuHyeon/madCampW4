@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 
 
 lateinit var id: String
+lateinit var name: String
 class friendsList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ class friendsList : AppCompatActivity() {
         }
 
         id = intent.getStringExtra("id")!!
+        name = intent.getStringExtra("name")!!
 
         val url = "http://192.249.18.125:80/get_friend/" + id
 

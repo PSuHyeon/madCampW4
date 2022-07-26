@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:orientation="vertical"
+    android:weightSum="6"
+    android:gravity="right"
+    >
+
+    <TextView
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:text="여기에 입력될 예정"
+        android:layout_marginRight="20dp"
+        android:id="@+id/chat_my_text"
+        />
+    <TextView
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:text="시간"
+        android:id="@+id/chat_my_time"
+        android:layout_marginRight="50dp"/>
+
+
+</LinearLayout>

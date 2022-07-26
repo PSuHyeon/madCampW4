@@ -68,10 +68,17 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="8"
+            android:layout_weight="7"
             android:id="@+id/send_edit_text"
             android:hint="메세지를 입력하세요"
             />
+        <CheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/save_check"
+            />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -79,6 +86,7 @@
             android:text="전송"
             android:id="@+id/send_button"
             />
+
     </LinearLayout>
 
 
