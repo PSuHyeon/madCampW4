@@ -74,9 +74,4 @@ class CallTest : AppCompatActivity(){
         Log.d("errCode", errCode.toString())
     }
 
-    fun clear(view: android.view.View) {
-        findViewById<TextView>(R.id.result).text = "";
-        findViewById<TextView>(R.id.log).text = "";
-    }
-
 }
