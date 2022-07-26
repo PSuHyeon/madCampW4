@@ -3,18 +3,15 @@ package com.example.novelchat
 import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import io.socket.client.IO
@@ -26,6 +23,8 @@ lateinit var myImage: Bitmap
 class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
     private var speech: SpeechRecognizer? = null
+    private val TIMEOUT: Long = 1000
+    private var presstime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -93,8 +92,8 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         speech?.startListening(intent);
     }
 
-    fun stopRecognition(view: android.view.View) {
-        //end of chat
+    fun stopRecognition() {
+        //end of chat - confirm??
         speech?.stopListening();
     }
 
@@ -153,6 +152,18 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             SpeechRecognizer.ERROR_SERVER -> "ERROR_SERVER"
             SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "ERROR_SPEECH_TIMEOUT"
             else -> "Didn't understand, please try again."
+        }
+    }
+
+    override fun onBackPressed() {
+        val tempTime = System.currentTimeMillis()
+        val intervalTime: Long = tempTime - presstime
+        if (intervalTime in 0..TIMEOUT) {
+            finish()
+        } else {
+            presstime = tempTime
+            stopRecognition()
+            Toast.makeText(applicationContext, "한번더 누르시면 대화가 종료됩니다", Toast.LENGTH_SHORT).show()
         }
     }
 }
