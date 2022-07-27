@@ -38,6 +38,7 @@ class Addfriend : AppCompatActivity() {
                     Method.GET, url,
                     Response.Listener {
                         Toast.makeText(this, "successfully added to friend list", Toast.LENGTH_SHORT).show()
+                        intent.putExtra("done", "")
                         finish()
                     },
                     Response.ErrorListener {  }

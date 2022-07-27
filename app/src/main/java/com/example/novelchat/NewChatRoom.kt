@@ -89,15 +89,16 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                             val date = Date(now)
                             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                             val getTime = dateFormat.format(date)
-                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name + "," + send_edit.textSize)
+                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name + "," + mytext.getTextSize() / resources.displayMetrics.scaledDensity)
                             send_edit.setText("")
                         }
                         else{
+
                             val now = System.currentTimeMillis()
                             val date = Date(now)
                             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                             val getTime = dateFormat.format(date)
-                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name+ "," + send_edit.textSize)
+                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name+ "," + mytext.getTextSize() / resources.displayMetrics.scaledDensity)
                             send_edit.setText("")
                         }
                     }
@@ -297,7 +298,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         }
     }
 }
-class chat(val name : String, val time : String, val text: String, val id: String)
+class chat(val name : String, val time : String, val text: String, val id: String, val size: Float)
 class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
@@ -316,12 +317,14 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
             Log.d("hihi", ""+arrayList.get(position).text)
             holder.my_text.text = arrayList.get(position).text
             holder.my_time.text = arrayList.get(position).time
+            holder.my_text.setTextSize(Dimension.SP, arrayList.get(position).size)
         }
         else if (holder is YourHolder){
             holder.your_image.setImageBitmap(yourImage)
             holder.your_text.text = arrayList.get(position).text
             holder.your_name.text = arrayList.get(position).name
             holder.your_time.text = arrayList.get(position).time
+            holder.your_text.setTextSize(Dimension.SP, arrayList.get(position).size)
         }
     }
 

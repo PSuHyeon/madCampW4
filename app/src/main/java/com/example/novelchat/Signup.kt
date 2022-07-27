@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 
+
 class Signup : AppCompatActivity() {
     private lateinit var pic: ImageView
     private lateinit var imageUri : Uri
@@ -60,6 +61,11 @@ class Signup : AppCompatActivity() {
                 params.put("image", "image")
                 params.put("name", name_enter.text.toString())
                 params.put("context", context_enter.text.toString())
+
+                //**********************************************************************여기 밑에 context에 넣으면됨
+                // params.put("token", 여기에 token 정보 입력)
+                params.put("token", "temporaryToken")
+
                 // image, position
                 // uri로 이미지 띄우기
                 val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)

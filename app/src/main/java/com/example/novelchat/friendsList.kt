@@ -24,12 +24,14 @@ import com.google.android.material.card.MaterialCardView
 lateinit var id: String
 lateinit var name: String
 class friendsList : AppCompatActivity() {
+    lateinit var friendListView: RecyclerView
+    lateinit var friendList: ArrayList<friend>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
 
-        val friendListView = findViewById<RecyclerView>(R.id.friend_list)
-        val friendList = ArrayList<friend>()
+        friendListView = findViewById<RecyclerView>(R.id.friend_list)
+        friendList = ArrayList<friend>()
         val add = findViewById<MaterialCardView>(R.id.add_friend)
 
         val my_pic = findViewById<ImageView>(R.id.my_pic)
@@ -54,13 +56,15 @@ class friendsList : AppCompatActivity() {
         val request = object : JsonArrayRequest(
             Request.Method.GET,
             url,null, Response.Listener {
+                Log.d("res", ""+it)
                 for (i in 0 until it.length()){
                     val jsonObject = it.getJSONObject(i)
                     val name = jsonObject.getString("name")
                     val image = StringToBitmap(jsonObject.getString("image"))
                     val context = jsonObject.getString("context")
                     val id = jsonObject.getString("id")
-                    friendList.add(friend(name, image!!, context, id))
+                    val token = jsonObject.getString("token")
+                    friendList.add(friend(name, image!!, context, id, token))
                 }
 
                 friendListView.adapter = friendAdapter(this, friendList)
@@ -83,9 +87,50 @@ class friendsList : AppCompatActivity() {
         friendListView.layoutManager = LinearLayoutManager(this)
 
     }
+
+    fun getFriends(){
+        val url = "http://192.249.18.125:80/get_friend/" + id
+
+        val request = object : JsonArrayRequest(
+            Request.Method.GET,
+            url,null, Response.Listener {
+                Log.d("res", ""+it)
+                friendList = ArrayList<friend>()
+                for (i in 0 until it.length()){
+                    val jsonObject = it.getJSONObject(i)
+                    val name = jsonObject.getString("name")
+                    val image = StringToBitmap(jsonObject.getString("image"))
+                    val context = jsonObject.getString("context")
+                    val id = jsonObject.getString("id")
+                    val token = jsonObject.getString("token")
+                    friendList.add(friend(name, image!!, context, id, token))
+                }
+
+                friendListView.adapter = friendAdapter(this, friendList)
+                friendListView.layoutManager = LinearLayoutManager(this)
+
+            }, Response.ErrorListener {
+
+            }
+        ) {
+
+        }
+        request.retryPolicy = DefaultRetryPolicy(
+            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+            // 0 means no retry
+            0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
+            1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        VolleySingleton.getInstance(this).addToRequestQueue(request)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        getFriends()
+    }
 }
 
-class friend(val name: String, val image: Bitmap, val context: String, val id: String)
+class friend(val name: String, val image: Bitmap, val context: String, val id: String, val token: String)
 
 class friendAdapter(val context: Context, val array: ArrayList<friend>): RecyclerView.Adapter<friendAdapter.friendHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): friendAdapter.friendHolder {
@@ -100,6 +145,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         holder.profile_name.text = array.get(position).name
         holder.profile_context.text = array.get(position).context
         holder.profile_id.text = array.get(position).id
+        holder.profile_token.text = array.get(position).token
     }
 
     override fun getItemCount(): Int {
@@ -110,7 +156,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         val profile_name = itemView.findViewById<TextView>(R.id.profile_name)
         val profile_context = itemView.findViewById<TextView>(R.id.profile_text)
         val profile_id = itemView.findViewById<TextView>(R.id.profile_id)
-
+        val profile_token = itemView.findViewById<TextView>(R.id.profile_token)
         init{
             itemView.setOnClickListener {
                 com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()
