@@ -9,24 +9,54 @@
     android:weightSum="10"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
-    >
-        ----
+        android:layout_weight="0.8"
+        android:background="@drawable/gradient_yellow2green_transparent"
+        android:orientation="horizontal"
+        >
+
+        <RelativeLayout
+            android:id="@+id/your_state_wrapper"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/your_image_wrapper"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                app:cardCornerRadius="17dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/your_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/your_state"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/your_image_wrapper"
+                android:src="@drawable/ic_baseline_mic_24"
+                app:tint="#94000000"/>
+
+        </RelativeLayout>
+
 
         <LinearLayout
-
             android:id="@+id/xmlLinear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:background="@drawable/item_bg_outline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
+            android:layout_centerInParent="true"
             >
 
             <TextView
@@ -41,8 +71,9 @@
                 android:paddingEnd="15dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
-                android:text="ooo"
-                android:textColor="@color/white"
+                android:text="텍스트 모드"
+                android:fontFamily="@font/nanumsquareroundr"
+                android:textColor="@color/black"
                 android:textSize="14dp"
                 tools:ignore="RtlSymmetry" />
 
@@ -57,10 +88,36 @@
                 android:paddingEnd="20dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="5dp"
-                android:text="iii"
+                android:text="보이스모드"
                 android:textSize="14dp" />
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/exitBtn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:backgroundTint="#FF6054"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_exit_to_app_24"
+                    app:tint="@color/white" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -77,13 +134,13 @@
         android:weightSum="10"
         android:orientation="horizontal"
         >
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:id="@+id/your_image"
-            />
+<!--        <ImageView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:id="@+id/your_image"-->
+<!--            />-->
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
