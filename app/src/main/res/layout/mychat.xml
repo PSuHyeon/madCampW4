@@ -16,7 +16,9 @@
         app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         app:strokeColor="@color/yellowMain"
-        app:strokeWidth="2dp">
+        app:strokeWidth="2dp"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        >
 
         <TextView
             android:id="@+id/chat_my_text"

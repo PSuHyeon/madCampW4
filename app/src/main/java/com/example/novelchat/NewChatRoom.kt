@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -22,6 +24,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -32,7 +35,7 @@ import java.util.*
 
 
 lateinit var yourImage: Bitmap
-lateinit var myImage: Bitmap
+//lateinit var myImage: Bitmap
 class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
     private var speech: SpeechRecognizer? = null
@@ -50,9 +53,10 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         subScriberTv = findViewById<TextView>(R.id.subScriberTv)
         val recyclerView = findViewById< RecyclerView>(R.id.chat_recyclerView)
         val mytext = findViewById<TextView>(R.id.my_text)
+        val mytextwrapper = findViewById<MaterialCardView>(R.id.my_text_wrapper)
         val yourtext = findViewById<TextView>(R.id.your_text)
         val yourprofile = findViewById<ImageView>(R.id.your_image)
-        val myprofile = findViewById<ImageView>(R.id.my_image)
+//        val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
         val stt_button = findViewById<CardView>(R.id.stt_button)
 //        val send_button = findViewById<Button>(R.id.send_button)
@@ -109,15 +113,23 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 return
             }
         })
+//
+//        val handler: Handler = object : Handler() {
+//            fun editMyText(msg: Message?) {
+//                mytext.text = msg.toString()
+//            }
+//        }
 
         mSocket.on("message_from", Emitter.Listener { args ->
             val temp = (args[0] as String).split(",")
 
             if (temp[1] == "me"){
-                mytext.text = temp[0]
+//                mytext.text = temp[0]
+                Handler(Looper.getMainLooper()).post { mytext.setText(temp[0]) }
             }
             else{
-                yourtext.text = temp[0]
+//                yourtext.text = temp[0]
+                Handler(Looper.getMainLooper()).post { yourtext.setText(temp[0]) }
             }
         })
 
@@ -146,7 +158,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
 
         yourprofile.setImageBitmap(yourImage)
-        myprofile.setImageBitmap(myImage)
+//        myprofile.setImageBitmap(myImage)
         var chatLogs = ArrayList<chat>()
         recyclerView.adapter = chatAdapter(this, chatLogs)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -193,6 +205,15 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         subScriberTv.setOnClickListener {
             setXMLToggle(true)
         }
+
+//        send_edit.setFocusable(true);
+//        send_edit.setFocusableInTouchMode(true);
+//        mytextwrapper.setOnClickListener {
+//            send_edit.requestFocus()
+//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//        }
+
+
 
     }
     private fun setXMLToggle(isViewClicked: Boolean) {

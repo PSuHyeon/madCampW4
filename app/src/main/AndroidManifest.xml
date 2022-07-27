@@ -26,7 +26,8 @@
 
         <activity
             android:name=".NewChatRoom"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".Addfriend"
             android:exported="true" />

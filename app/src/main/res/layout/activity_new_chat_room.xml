@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".NewChatRoom"
     android:orientation="vertical"
-    android:weightSum="13"
+    android:weightSum="10"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"
+        android:layout_weight="1"
         android:background="@drawable/gradient_yellow2mid"
         android:orientation="horizontal"
         >
@@ -132,55 +132,143 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8.1"
         android:id="@+id/chat_recyclerView"
-        android:background="#27FFDF0A"
-        />
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        android:layout_weight="7"
+        android:background="#27FFDF0A" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="10"
         android:orientation="horizontal"
         >
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/your_text_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/greenMain"
+            app:strokeWidth="2dp"
+            >
+
+            <TextView
+                android:id="@+id/your_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/nanumsquareroundr"
+                android:gravity="right"
+                android:text=""
+                android:textColor="@color/gray"
+                android:textSize="15dp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/chat_your_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/your_text_wrapper"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/your_text_wrapper"
+            android:fontFamily="@font/nanumsquareroundr"
+            android:gravity="right"
+            android:text="지금"
+            android:textColor="#888888"
+            android:textSize="10dp" />
+
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:autoSizeTextType="uniform"-->
+<!--            android:padding="3dp"-->
+<!--            android:layout_weight="4"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:id="@+id/your_text"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:textSize="15sp"-->
+<!--            android:padding="3dp"-->
+<!--            android:layout_weight="4"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:id="@+id/my_text"-->
+<!--            />-->
 <!--        <ImageView-->
 <!--            android:layout_width="0dp"-->
 <!--            android:layout_weight="1"-->
 <!--            android:layout_height="40dp"-->
 <!--            android:layout_gravity="center"-->
-<!--            android:id="@+id/your_image"-->
+<!--            android:id="@+id/my_image"-->
 <!--            />-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/my_text_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/yellowMain"
+            app:strokeWidth="2dp">
+
+            <TextView
+                android:id="@+id/my_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/nanumsquareroundr"
+                android:gravity="right"
+                android:text=""
+                android:textColor="@color/gray"
+                android:textSize="15dp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:autoSizeTextType="uniform"
-            android:padding="3dp"
-            android:layout_weight="4"
-            android:layout_gravity="center"
-            android:id="@+id/your_text"
-            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지금"
+            android:layout_marginRight="5dp"
+            android:layout_alignBottom="@id/my_text_wrapper"
+            android:layout_toLeftOf="@id/my_text_wrapper"
+            android:textSize="10dp"
+            android:fontFamily="@font/nanumsquareroundr"
+            android:textColor="#888888"
             />
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:textSize="15sp"
-            android:padding="3dp"
-            android:layout_weight="4"
-            android:layout_gravity="center"
-            android:id="@+id/my_text"
-            />
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:id="@+id/my_image"
-            />
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -188,10 +276,8 @@
         android:layout_weight="1"
         android:orientation="horizontal"
         android:weightSum="10"
+        android:visibility="visible"
         >
-
-
-
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -199,10 +285,6 @@
             android:id="@+id/send_edit_text"
             android:hint="메세지를 입력하세요"
             />
-
-
-
-
         <CheckBox
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -243,6 +325,7 @@
                 android:id="@+id/slider"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/text_size_icon"
                 android:stepSize="10"
                 android:value="20"
@@ -252,7 +335,8 @@
                 app:thumbColor="@color/white"
                 app:thumbRadius="8dp"
                 app:trackColorActive="@color/white"
-                app:trackColorInactive="#5E000000" />
+                app:trackColorInactive="#5E000000"
+                />
 
         </RelativeLayout>
         <androidx.cardview.widget.CardView

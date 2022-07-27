@@ -59,7 +59,9 @@ android:layout_height="wrap_content"
     app:cardCornerRadius="25dp"
     app:cardElevation="0dp"
     app:strokeColor="@color/greenMain"
-    app:strokeWidth="2dp">
+    app:strokeWidth="2dp"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    >
 
     <TextView
         android:id="@+id/chat_your_text"
