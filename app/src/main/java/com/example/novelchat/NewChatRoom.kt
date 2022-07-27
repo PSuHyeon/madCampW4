@@ -17,6 +17,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.Dimension
 import androidx.appcompat.app.AppCompatActivity
@@ -84,6 +86,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 mSocket.emit("message_from", id + "," + your_id + "," + send_edit.text.toString())
+                Log.d("send_edit text", send_edit.text.toString());
                 if (send_edit.text.contains("\n")){
                     if(send_edit.text.isEmpty()){
 
@@ -113,12 +116,6 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 return
             }
         })
-//
-//        val handler: Handler = object : Handler() {
-//            fun editMyText(msg: Message?) {
-//                mytext.text = msg.toString()
-//            }
-//        }
 
         mSocket.on("message_from", Emitter.Listener { args ->
             val temp = (args[0] as String).split(",")
@@ -206,12 +203,15 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             setXMLToggle(true)
         }
 
-//        send_edit.setFocusable(true);
+        send_edit.isFocusable = true;
 //        send_edit.setFocusableInTouchMode(true);
-//        mytextwrapper.setOnClickListener {
-//            send_edit.requestFocus()
-//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-//        }
+        mytextwrapper.setOnClickListener {
+            send_edit.requestFocus()
+//            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            val imm: InputMethodManager =
+                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(send_edit, InputMethodManager.SHOW_IMPLICIT)
+        }
 
 
 
