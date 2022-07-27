@@ -18,6 +18,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.google.android.material.card.MaterialCardView
 
 
 lateinit var id: String
@@ -29,7 +30,7 @@ class friendsList : AppCompatActivity() {
 
         val friendListView = findViewById<RecyclerView>(R.id.friend_list)
         val friendList = ArrayList<friend>()
-        val add = findViewById<ImageView>(R.id.add_friend)
+        val add = findViewById<MaterialCardView>(R.id.add_friend)
 
         val my_pic = findViewById<ImageView>(R.id.my_pic)
         val my_name = findViewById<TextView>(R.id.my_name)
