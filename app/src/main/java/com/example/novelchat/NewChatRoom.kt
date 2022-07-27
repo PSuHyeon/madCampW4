@@ -89,7 +89,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                             val date = Date(now)
                             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                             val getTime = dateFormat.format(date)
-                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name)
+                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name + "," + send_edit.textSize)
                             send_edit.setText("")
                         }
                         else{
@@ -97,7 +97,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                             val date = Date(now)
                             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                             val getTime = dateFormat.format(date)
-                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name)
+                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name+ "," + send_edit.textSize)
                             send_edit.setText("")
                         }
                     }
