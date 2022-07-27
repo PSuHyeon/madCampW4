@@ -40,8 +40,6 @@ class NewChatRoom : AppCompatActivity() {
 
     // Fill the App ID of your project generated on Agora Console.
     private val APP_ID = "f87f901b9b6c4a6aa4b2bdf5edea1331"
-    // Fill the channel name.
-//    private val CHANNEL = "0723test"
     // Fill the temp token generated on Agora Console.
     lateinit var USERACCOUNT: String;
     lateinit var TOKEN: String;
@@ -96,45 +94,6 @@ class NewChatRoom : AppCompatActivity() {
                 initializeAndJoinChannel();
             }
         })
-
-//        CHANNEL = if (id < your_id!!) {
-//            id + your_id!!;
-//        } else {
-//            your_id!! + id;
-//        }
-//
-//        val url = "http://192.249.18.125:80/rtc/$CHANNEL/publisher/userAccount/$id"
-//
-//        val request = object : JsonObjectRequest(
-//            Request.Method.GET,
-//            url, null, Response.Listener {
-//
-//                val mytoken2 = it.getString("rtcToken");
-//                try {
-//                    mRtcEngine = RtcEngine.create(baseContext, APP_ID, mRtcEventHandler)
-//                } catch (e: Exception) {
-//                }
-////                var errCode = mRtcEngine!!.joinChannel(mytoken2, CHANNEL, "", 0)
-//                var errCode = mRtcEngine!!.joinChannelWithUserAccount(mytoken2, CHANNEL, id)
-//                Log.d("errCode", errCode.toString())
-////                Log.d("TOKEN", TOKEN)
-//                Log.d("CHANNEL", CHANNEL)
-//                Log.d("mytoken2", mytoken2)
-//
-//            }, Response.ErrorListener {
-//
-//            }
-//        ) {
-//
-//        }
-//        request.retryPolicy = DefaultRetryPolicy(
-//            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-//            // 0 means no retry
-//            0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
-//            1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-//        )
-//        VolleySingleton.getInstance(this).addToRequestQueue(request)
-
 
         send_edit.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
