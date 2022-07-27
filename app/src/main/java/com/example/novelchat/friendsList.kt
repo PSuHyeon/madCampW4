@@ -19,6 +19,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.example.novelchat.friendsList.Companion.my_name
 import com.google.android.material.card.MaterialCardView
 
 
@@ -28,6 +29,7 @@ class friendsList : AppCompatActivity() {
 
     companion object {
         lateinit var friendListActivity:friendsList
+        lateinit var my_name:String
     }
 
     lateinit var friendListView: RecyclerView
@@ -37,6 +39,7 @@ class friendsList : AppCompatActivity() {
         setContentView(R.layout.activity_friends_list)
 
         friendListActivity = this
+        my_name = intent.getStringExtra("name").toString()
 
         friendListView = findViewById<RecyclerView>(R.id.friend_list)
         friendList = ArrayList<friend>()
@@ -96,18 +99,6 @@ class friendsList : AppCompatActivity() {
 
     }
 
-//    fun callFriend() {
-//        Log.d("sign-up callFriend", "in call Friend")
-//        val notificationsSender = FcmNotificationsSender(
-//            findViewById<TextView>(R.id.profile_token).toString(),
-//            "TIKITALK",
-//            "친구가 대화하고 싶어해요!",
-//            applicationContext,
-//            this@friendsList
-//        )
-//        notificationsSender.SendNotifications()
-//
-//    }
 
     fun getFriends(){
         val url = "http://192.249.18.125:80/get_friend/" + id
@@ -173,7 +164,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
             val notificationsSender = FcmNotificationsSender(
                 array.get(position).token,
                 "TIKITALK",
-                "친구가 대화하고 싶어해요!",
+                my_name + " 친구가 대화하고 싶어해요!",
                 context.applicationContext,
                 friendsList.friendListActivity
             )
