@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "238534642918",
+    "project_id": "novelchat-297aa",
+    "storage_bucket": "novelchat-297aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238534642918:android:7a48134ac4b5f3fd51ff27",
+        "android_client_info": {
+          "package_name": "com.example.novelchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238534642918-aojqs0f2cq20jrumqja84n08p2lv3bo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAbHlaUX9sOIwTZirTyh3JKJuK4muVLwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238534642918-aojqs0f2cq20jrumqja84n08p2lv3bo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

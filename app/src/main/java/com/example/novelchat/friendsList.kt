@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -20,6 +21,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.example.novelchat.friendsList.Companion.my_name
 import com.google.android.material.card.MaterialCardView
 import io.socket.client.IO
 import io.socket.emitter.Emitter
@@ -28,6 +30,12 @@ import io.socket.emitter.Emitter
 lateinit var id: String
 lateinit var name: String
 class friendsList : AppCompatActivity() {
+
+    companion object {
+        lateinit var friendListActivity:friendsList
+        lateinit var my_name:String
+    }
+
     lateinit var friendListView: RecyclerView
     lateinit var friendList: ArrayList<friend>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +44,9 @@ class friendsList : AppCompatActivity() {
 
         mSocket= IO.socket("http://192.249.18.125:443")
         mSocket.connect()
+        friendListActivity = this
+        my_name = intent.getStringExtra("name").toString()
+
         friendListView = findViewById<RecyclerView>(R.id.friend_list)
         friendList = ArrayList<friend>()
         val add = findViewById<MaterialCardView>(R.id.add_friend)
@@ -191,11 +202,24 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         if (array.get(position).onoff == "off"){
             holder.profile_onoff.setBackgroundColor(Color.RED)
         }
+        holder.call_friend_btn.setOnClickListener{
+            Log.d("tooken--", "call-friend-btn")
+            Log.d("tooken-call-friend", array.get(position).token)
+            val notificationsSender = FcmNotificationsSender(
+                array.get(position).token,
+                "TIKITALK",
+                my_name + " 친구가 대화하고 싶어해요!",
+                context.applicationContext,
+                friendsList.friendListActivity
+            )
+            notificationsSender.SendNotifications()
+        }
     }
 
     override fun getItemCount(): Int {
         return array.size
     }
+
     inner class friendHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val profile_image = itemView.findViewById<ImageView>(R.id.profile_pic)
         val profile_name = itemView.findViewById<TextView>(R.id.profile_name)
@@ -203,6 +227,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         val profile_id = itemView.findViewById<TextView>(R.id.profile_id)
         val profile_token = itemView.findViewById<TextView>(R.id.profile_token)
         val profile_onoff = itemView.findViewById<CardView>(R.id.profile_onoff)
+        val call_friend_btn = itemView.findViewById<Button>(R.id.btnCallFriend)
         init{
             itemView.setOnClickListener {
                 com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()
@@ -210,6 +235,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
                 intent.putExtra("id1", profile_id.text.toString())
                 context.startActivity(intent)
             }
+
         }
 
     }

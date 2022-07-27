@@ -16,8 +16,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.iid.FirebaseInstanceId
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.util.*
+
+import com.google.android.gms.tasks.OnCompleteListener
+
+import com.google.android.gms.tasks.Task
+
+import com.google.firebase.iid.InstanceIdResult
+
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class Signup : AppCompatActivity() {
@@ -64,35 +74,48 @@ class Signup : AppCompatActivity() {
 
                 //**********************************************************************여기 밑에 context에 넣으면됨
                 // params.put("token", 여기에 token 정보 입력)
-                params.put("token", "temporaryToken")
+                FirebaseInstanceId.getInstance().instanceId
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            var token = Objects.requireNonNull(task.result)?.token
+                            Log.d("tooken-signin", token.toString())
+                            if (token != null) {
+                                params.put("token", token)
+                                Log.d("tooken-signin--", token)
 
-                // image, position
-                // uri로 이미지 띄우기
-                val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
-                    params["image"] = BitmapToString(bitmap)!!
 
-                // image, position
-                val jsonObject: JSONObject = JSONObject(params as Map<*, *>?)
-                // Request a string response from the provided URL.
-                // Request a string response from the provided URL.
-                val Request: JsonObjectRequest = object : JsonObjectRequest(
-                    Method.POST, url, null,
-                    Response.Listener { // Display the first 500 characters of the response string.
-                        Log.d("upload", "success")
-                    },
-                    Response.ErrorListener { Log.d("check", "got error") }
-                ) {
-                    override fun getBody(): ByteArray {
-                        return jsonObject.toString().toByteArray()
+                                // image, position
+                                // uri로 이미지 띄우기
+                                val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
+                                params["image"] = BitmapToString(bitmap)!!
+
+                                // image, position
+                                val jsonObject: JSONObject = JSONObject(params as Map<*, *>?)
+                                // Request a string response from the provided URL.
+                                // Request a string response from the provided URL.
+                                val Request: JsonObjectRequest = object : JsonObjectRequest(
+                                    Method.POST, url, null,
+                                    Response.Listener { // Display the first 500 characters of the response string.
+                                        Log.d("upload", "success")
+                                    },
+                                    Response.ErrorListener { Log.d("check", "got error") }
+                                ) {
+                                    override fun getBody(): ByteArray {
+                                        return jsonObject.toString().toByteArray()
+                                    }
+                                }
+                                Request.retryPolicy = DefaultRetryPolicy(
+                                    0,
+                                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                                )
+
+                                queue.add(Request)
+                                finish()
+                            }
+                        }
+
                     }
-                }
-                Request.retryPolicy = DefaultRetryPolicy(
-                    0,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                )
-
-                queue.add(Request)
 
 
 
@@ -115,7 +138,7 @@ class Signup : AppCompatActivity() {
 //                    1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
 //                )
 //                VolleySingleton.getInstance(this).addToRequestQueue(request)
-                finish()
+
             }
         }
 
