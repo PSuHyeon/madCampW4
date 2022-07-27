@@ -12,15 +12,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:background="@drawable/gradient_yellow2mid"
         android:orientation="horizontal"
         >
 
         <RelativeLayout
             android:id="@+id/your_state_wrapper"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:gravity="center">
 
             <androidx.cardview.widget.CardView
@@ -37,13 +38,25 @@
                     android:scaleType="centerCrop" />
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/your_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="4dp"
+                android:layout_toRightOf="@id/your_image_wrapper"
+                android:fontFamily="@font/nanumsquareroundr"
+                android:text="이혜림"
+                android:textColor="@color/gray"
+                android:textSize="18dp" />
+
             <ImageView
                 android:id="@+id/your_state"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="3dp"
-                android:layout_toRightOf="@id/your_image_wrapper"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/your_name"
                 android:src="@drawable/ic_baseline_mic_24"
                 app:tint="@color/gray" />
 
@@ -54,9 +67,9 @@
             android:id="@+id/xmlLinear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="15dp"
             android:background="@drawable/item_bg_outline"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             >
 
             <TextView
@@ -64,15 +77,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/item_bg_on"
-                android:fontFamily="@font/nanumsquareroundr"
                 android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingLeft="15dp"
+                android:paddingLeft="12dp"
                 android:paddingTop="5dp"
-                android:paddingEnd="15dp"
-                android:paddingRight="10dp"
+                android:paddingRight="12dp"
                 android:paddingBottom="5dp"
-                android:text="텍스트 모드"
+                android:text="문자"
+                android:fontFamily="@font/nanumsquareroundr"
                 android:textColor="@color/gray"
                 android:textSize="14dp"
                 tools:ignore="RtlSymmetry" />
@@ -82,16 +93,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingStart="15dp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="12dp"
                 android:paddingTop="5dp"
-                android:paddingEnd="20dp"
-                android:paddingRight="15dp"
+                android:paddingRight="12dp"
                 android:paddingBottom="5dp"
-                android:text="보이스모드"
+                android:text="음성"
                 android:fontFamily="@font/nanumsquareroundr"
-                android:textSize="14dp"
-                android:textColor="@color/gray"/>
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -125,7 +134,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.2"
+        android:layout_weight="8.1"
         android:id="@+id/chat_recyclerView"
         android:background="#27FFDF0A"
         />
