@@ -3,6 +3,7 @@ package com.example.novelchat
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
@@ -19,6 +21,8 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.google.android.material.card.MaterialCardView
+import io.socket.client.IO
+import io.socket.emitter.Emitter
 
 
 lateinit var id: String
@@ -30,6 +34,8 @@ class friendsList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
 
+        mSocket= IO.socket("http://192.249.18.125:443")
+        mSocket.connect()
         friendListView = findViewById<RecyclerView>(R.id.friend_list)
         friendList = ArrayList<friend>()
         val add = findViewById<MaterialCardView>(R.id.add_friend)
@@ -43,13 +49,42 @@ class friendsList : AppCompatActivity() {
         my_context.text = intent.getStringExtra("context")
 
 
+
+        id = intent.getStringExtra("id")!!
+        name = intent.getStringExtra("name")!!
+
+        mSocket.emit("iamon", id)
+
+        mSocket.on("whoison", Emitter.Listener{ args ->
+            Log.d("whoison", "came")
+            val target_id = args.get(0) as String
+            for (i in friendList){
+                if (i.id == target_id){
+                    i.onoff = "on"
+
+                }
+            }
+            runOnUiThread {
+                friendListView.adapter = friendAdapter(this, friendList)
+            }
+        })
+
+        mSocket.on("whoisout", Emitter.Listener{ args ->
+            Log.d("whoisout", "came")
+            val target_id = args.get(0) as String
+            for (i in friendList){
+                if (i.id == target_id){
+                    i.onoff = "off"
+                }
+            }
+            runOnUiThread {
+                friendListView.adapter = friendAdapter(this, friendList)
+            }
+        })
         add.setOnClickListener {
             val intent = Intent(this, Addfriend::class.java)
             startActivityForResult(intent, 300)
         }
-
-        id = intent.getStringExtra("id")!!
-        name = intent.getStringExtra("name")!!
 
         val url = "http://192.249.18.125:80/get_friend/" + id
 
@@ -64,7 +99,8 @@ class friendsList : AppCompatActivity() {
                     val context = jsonObject.getString("context")
                     val id = jsonObject.getString("id")
                     val token = jsonObject.getString("token")
-                    friendList.add(friend(name, image!!, context, id, token))
+                    val onoff = jsonObject.getString("onoff")
+                    friendList.add(friend(name, image!!, context, id, token, onoff))
                 }
 
                 friendListView.adapter = friendAdapter(this, friendList)
@@ -94,7 +130,7 @@ class friendsList : AppCompatActivity() {
         val request = object : JsonArrayRequest(
             Request.Method.GET,
             url,null, Response.Listener {
-                Log.d("res", ""+it)
+
                 friendList = ArrayList<friend>()
                 for (i in 0 until it.length()){
                     val jsonObject = it.getJSONObject(i)
@@ -103,7 +139,8 @@ class friendsList : AppCompatActivity() {
                     val context = jsonObject.getString("context")
                     val id = jsonObject.getString("id")
                     val token = jsonObject.getString("token")
-                    friendList.add(friend(name, image!!, context, id, token))
+                    val onoff = jsonObject.getString("onoff")
+                    friendList.add(friend(name, image!!, context, id, token, onoff))
                 }
 
                 friendListView.adapter = friendAdapter(this, friendList)
@@ -128,9 +165,14 @@ class friendsList : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         getFriends()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mSocket.emit("iamout", id)
+    }
 }
 
-class friend(val name: String, val image: Bitmap, val context: String, val id: String, val token: String)
+class friend(val name: String, val image: Bitmap, val context: String, val id: String, val token: String, var onoff: String)
 
 class friendAdapter(val context: Context, val array: ArrayList<friend>): RecyclerView.Adapter<friendAdapter.friendHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): friendAdapter.friendHolder {
@@ -146,6 +188,9 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         holder.profile_context.text = array.get(position).context
         holder.profile_id.text = array.get(position).id
         holder.profile_token.text = array.get(position).token
+        if (array.get(position).onoff == "off"){
+            holder.profile_onoff.setBackgroundColor(Color.RED)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -157,6 +202,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         val profile_context = itemView.findViewById<TextView>(R.id.profile_text)
         val profile_id = itemView.findViewById<TextView>(R.id.profile_id)
         val profile_token = itemView.findViewById<TextView>(R.id.profile_token)
+        val profile_onoff = itemView.findViewById<CardView>(R.id.profile_onoff)
         init{
             itemView.setOnClickListener {
                 com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()

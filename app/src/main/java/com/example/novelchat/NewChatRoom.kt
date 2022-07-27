@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Vibrator
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -13,6 +15,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -32,6 +35,7 @@ import java.util.*
 
 lateinit var yourImage: Bitmap
 lateinit var myImage: Bitmap
+lateinit var your_id: String
 class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
     private var speech: SpeechRecognizer? = null
@@ -56,7 +60,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val stt_button = findViewById<Button>(R.id.stt_button)
 //        val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
-        val your_id = intent.getStringExtra("id1")
+        your_id = intent.getStringExtra("id1")!!
 
         val textSizeSlider: Slider = findViewById(R.id.slider)
         textSizeSlider.addOnChangeListener{ slider, value, fromUser ->
@@ -311,7 +315,22 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
             return MyHolder(view)
         }
     }
+    fun View.setOnVeryLongClickListener(listener: () -> Unit) {
+        setOnTouchListener(object : View.OnTouchListener {
 
+            private val longClickDuration = 2000L
+            private val handler = Handler()
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+                    handler.postDelayed({ listener.invoke() }, longClickDuration)
+                } else if (event?.action == MotionEvent.ACTION_UP) {
+                    handler.removeCallbacksAndMessages(null)
+                }
+                return true
+            }
+        })
+    }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyHolder){
             Log.d("hihi", ""+arrayList.get(position).text)
@@ -344,6 +363,11 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     inner class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val my_text = itemView.findViewById<TextView>(R.id.chat_my_text)
         val my_time = itemView.findViewById<TextView>(R.id.chat_my_time)
+        init {
+            itemView.setOnVeryLongClickListener {
+                mSocket.emit("save_m", id +"," + your_id + "," + my_text.text.toString() + "," + my_time.text.toString())
+            }
+        }
     }
 
     inner class YourHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -351,5 +375,13 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
         val your_text = itemView.findViewById<TextView>(R.id.chat_your_text)
         val your_time = itemView.findViewById<TextView>(R.id.chat_your_time)
         val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
+        init {
+            itemView.setOnVeryLongClickListener {
+                mSocket.emit("save_m", id +"," + your_id + "," + your_text.text.toString() + "," + your_time.text.toString())
+            }
+        }
+
     }
 }
+
+

@@ -17,8 +17,7 @@ class EnterRoom : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_room)
 
-        mSocket= IO.socket("http://192.249.18.125:443")
-        mSocket.connect()
+
 
         val enter_button = findViewById<Button>(R.id.enterroom_button)
         val create_button = findViewById<Button>(R.id.makeroom_button)
