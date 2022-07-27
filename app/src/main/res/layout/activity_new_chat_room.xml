@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".NewChatRoom"
     android:orientation="vertical"
-    android:weightSum="10"
+    android:weightSum="13"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.8"
-        android:background="@drawable/gradient_yellow2green_transparent"
+        android:background="@drawable/gradient_yellow2mid"
         android:orientation="horizontal"
         >
 
@@ -41,11 +41,11 @@
                 android:id="@+id/your_state"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:layout_marginTop="3dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/your_image_wrapper"
                 android:src="@drawable/ic_baseline_mic_24"
-                app:tint="#94000000"/>
+                app:tint="@color/gray" />
 
         </RelativeLayout>
 
@@ -64,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/item_bg_on"
+                android:fontFamily="@font/nanumsquareroundr"
                 android:gravity="center"
                 android:paddingStart="20dp"
                 android:paddingLeft="15dp"
@@ -72,8 +73,7 @@
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="텍스트 모드"
-                android:fontFamily="@font/nanumsquareroundr"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:textSize="14dp"
                 tools:ignore="RtlSymmetry" />
 
@@ -89,7 +89,9 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="5dp"
                 android:text="보이스모드"
-                android:textSize="14dp" />
+                android:fontFamily="@font/nanumsquareroundr"
+                android:textSize="14dp"
+                android:textColor="@color/gray"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -123,8 +125,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
+        android:layout_weight="8.2"
         android:id="@+id/chat_recyclerView"
+        android:background="#27FFDF0A"
         />
 
     <LinearLayout
@@ -169,40 +172,26 @@
             android:id="@+id/my_image"
             />
     </LinearLayout>
-    <com.google.android.material.slider.Slider
-        android:id="@+id/slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:value="20"
-        android:valueFrom="10"
-        android:valueTo="80"
-        android:stepSize="10"
-        app:labelBehavior="gone"
-        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="1"
         android:orientation="horizontal"
         android:weightSum="10"
         >
 
+
+
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="7"
+            android:layout_weight="8"
             android:id="@+id/send_edit_text"
             android:hint="메세지를 입력하세요"
             />
 
-        <Button
-            android:id="@+id/stt_button"
-            android:onClick="startRecognition"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="STT" />
+
 
 
         <CheckBox
@@ -213,7 +202,90 @@
             />
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/gradient_mid2green"
+        android:orientation="horizontal">
+<!--        <Button-->
+<!--            android:id="@+id/stt_button"-->
+<!--            android:onClick="startRecognition"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="STT" />-->
 
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="300dp"
+            android:padding="7dp"
+            >
+
+            <ImageView
+                android:id="@+id/text_size_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_baseline_text_fields_24"
+                app:tint="@color/gray" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/text_size_icon"
+                android:stepSize="10"
+                android:value="20"
+                android:valueFrom="10"
+                android:valueTo="80"
+                app:labelBehavior="gone"
+                app:thumbColor="@color/white"
+                app:thumbRadius="8dp"
+                app:trackColorActive="@color/white"
+                app:trackColorInactive="#5E000000" />
+
+        </RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/stt_button"
+            android:onClick="startRecognition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            app:cardBackgroundColor="@color/greenMain"
+            >
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:padding="7dp"
+                >
+
+                <ImageView
+                    android:id="@+id/my_state"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_baseline_mic_24"
+                    app:tint="@color/gray"/>
+
+                <TextView
+                    android:id="@+id/my_state_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@id/my_state"
+                    android:fontFamily="@font/nanumsquareroundr"
+                    android:text="ON"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
 
 
 </LinearLayout>

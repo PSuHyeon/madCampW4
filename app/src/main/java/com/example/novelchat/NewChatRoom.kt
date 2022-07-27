@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.Dimension
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,7 +54,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val yourprofile = findViewById<ImageView>(R.id.your_image)
         val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
-        val stt_button = findViewById<Button>(R.id.stt_button)
+        val stt_button = findViewById<CardView>(R.id.stt_button)
 //        val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         val your_id = intent.getStringExtra("id1")
@@ -199,10 +200,10 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         if (isViewClicked) {
             viewTv.setTextColor(Color.GRAY)
             viewTv.setBackgroundResource(0)
-            subScriberTv.setTextColor(resources.getColor(R.color.white))
+            subScriberTv.setTextColor(resources.getColor(R.color.gray))
             subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
         } else {
-            viewTv.setTextColor(resources.getColor(R.color.white))
+            viewTv.setTextColor(resources.getColor(R.color.gray))
             viewTv.setBackgroundResource(R.drawable.item_bg_on)
             subScriberTv.setTextColor(Color.GRAY)
             subScriberTv.setBackgroundResource(0)
@@ -318,9 +319,9 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
             holder.my_time.text = arrayList.get(position).time
         }
         else if (holder is YourHolder){
-            holder.your_image.setImageBitmap(yourImage)
+//            holder.your_image.setImageBitmap(yourImage)
             holder.your_text.text = arrayList.get(position).text
-            holder.your_name.text = arrayList.get(position).name
+//            holder.your_name.text = arrayList.get(position).name
             holder.your_time.text = arrayList.get(position).time
         }
     }
@@ -344,9 +345,9 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     }
 
     inner class YourHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val your_image = itemView.findViewById<ImageView>(R.id.chat_your_profile)
+//        val your_image = itemView.findViewById<ImageView>(R.id.chat_your_profile)
         val your_text = itemView.findViewById<TextView>(R.id.chat_your_text)
         val your_time = itemView.findViewById<TextView>(R.id.chat_your_time)
-        val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
+//        val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
     }
 }
