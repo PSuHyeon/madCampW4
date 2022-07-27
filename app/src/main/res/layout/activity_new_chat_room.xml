@@ -9,10 +9,12 @@
     android:weightSum="10"
     >
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
+        android:layout_weight="6"
         android:id="@+id/chat_recyclerView"
         />
 
@@ -44,7 +46,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:autoSizeTextType="uniform"
+            android:textSize="15sp"
             android:padding="3dp"
             android:layout_weight="4"
             android:layout_gravity="center"
@@ -58,6 +60,17 @@
             android:id="@+id/my_image"
             />
     </LinearLayout>
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:value="20"
+        android:valueFrom="10"
+        android:valueTo="80"
+        android:stepSize="10"
+        app:labelBehavior="gone"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
