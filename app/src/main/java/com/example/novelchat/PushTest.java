@@ -92,12 +92,5 @@ public class PushTest extends AppCompatActivity {
             }
         });
 
-        single_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-            }
-        });
     }
 }

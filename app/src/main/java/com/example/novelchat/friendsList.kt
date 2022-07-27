@@ -167,6 +167,18 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         holder.profile_context.text = array.get(position).context
         holder.profile_id.text = array.get(position).id
         holder.profile_token.text = array.get(position).token
+        holder.call_friend_btn.setOnClickListener{
+            Log.d("tooken--", "call-friend-btn")
+            Log.d("tooken-call-friend", array.get(position).token)
+            val notificationsSender = FcmNotificationsSender(
+                array.get(position).token,
+                "TIKITALK",
+                "친구가 대화하고 싶어해요!",
+                context.applicationContext,
+                friendsList.friendListActivity
+            )
+            notificationsSender.SendNotifications()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -186,19 +198,6 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
                 val intent = Intent(context, NewChatRoom::class.java)
                 intent.putExtra("id1", profile_id.text.toString())
                 context.startActivity(intent)
-            }
-
-            call_friend_btn.setOnClickListener{
-                Log.d("tooken", "call-friend-btn")
-                Log.d("tooken-call-friend", profile_token.toString())
-                val notificationsSender = FcmNotificationsSender(
-                    profile_token.toString(),
-                    "TIKITALK",
-                    "친구가 대화하고 싶어해요!",
-                    context.applicationContext,
-                    friendsList.friendListActivity
-                )
-                notificationsSender.SendNotifications()
             }
 
         }
