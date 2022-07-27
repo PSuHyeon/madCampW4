@@ -41,6 +41,8 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     private var presstime: Long = 0
     lateinit var viewTv: TextView
     lateinit var subScriberTv :TextView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1);
@@ -55,7 +57,6 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val yourprofile = findViewById<ImageView>(R.id.your_image)
         val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
-//        val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         val your_id = intent.getStringExtra("id1")
 
@@ -63,8 +64,6 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         textSizeSlider.addOnChangeListener{ slider, value, fromUser ->
             mytext.setTextSize(Dimension.SP, value.toFloat())
             // size도 말풍선 보낼 때 보내야함
-
-
         }
 
 
@@ -90,7 +89,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                             val date = Date(now)
                             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                             val getTime = dateFormat.format(date)
-                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name)
+                            com.example.novelchat.mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name)
                             send_edit.setText("")
                         }
                         else{
@@ -98,7 +97,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                             val date = Date(now)
                             val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                             val getTime = dateFormat.format(date)
-                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name)
+                            com.example.novelchat.mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name)
                             send_edit.setText("")
                         }
                     }
@@ -195,6 +194,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         }
 
     }
+
     private fun setXMLToggle(isViewClicked: Boolean) {
 
         if (isViewClicked) {
@@ -264,8 +264,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
 
         val view = findViewById<TextView>(R.id.send_edit_text)
-        view.text = matches?.get(0)
+        view.text = matches?.get(0)+"\n"
         // 여기서 말풍선 보내기
+
     }
 
     override fun onEvent(eventType: Int, params: Bundle?) {
