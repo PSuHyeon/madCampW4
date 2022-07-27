@@ -63,7 +63,7 @@ class Signup : AppCompatActivity() {
                 // image, position
                 // uri로 이미지 띄우기
                 val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)
-                    params["image"] = BitmapToString(bitmap)!!
+                params["image"] = BitmapToString(bitmap)!!
 
                 // image, position
                 val jsonObject: JSONObject = JSONObject(params as Map<*, *>?)

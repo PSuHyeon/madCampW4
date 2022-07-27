@@ -7,66 +7,153 @@
     android:orientation="vertical"
     tools:context=".friendsList">
 
-
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
-        android:weightSum="10"
+        android:gravity="center"
+        android:paddingTop="10dp"
         >
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:id="@+id/my_pic"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiki"
+            android:fontFamily="@font/okddung"
+            android:textColor="@color/greenMain"
+            android:textSize="23sp"
             />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:weightSum="2"
-            android:orientation="vertical"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:weightSum="10"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="7"
-                    android:layout_height="match_parent"
-                    android:id="@+id/my_name"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="match_parent"
-                    android:id="@+id/profile_online"
-                    android:text="온라인"
-                    android:autoSizeTextType="uniform"
-                    android:textColor="#00C73C"
-                    />
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:id="@+id/my_text"
-                />
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Talk"
+            android:fontFamily="@font/okddung"
+            android:textColor="@color/yellowMain"
+            android:textSize="23sp"
+            />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="right"
-        android:src="@drawable/add"
-        android:id="@+id/add_friend"
-        />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/yellowMain"
+        app:strokeWidth="2dp"
+        >
+<!--        <ImageView-->
+<!--            android:src="@drawable/gradient_yellow2green"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scaleType="fitXY"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            >
+            <!--        <ImageView-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="match_parent"-->
+            <!--            android:layout_weight="3"-->
+            <!--            android:id="@+id/profile_pic"-->
+            <!--            />-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvProfilePic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp"
+                >
+                <ImageView
+                    android:id="@+id/my_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    />
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="7"
+                android:weightSum="3"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:orientation="horizontal"
+                    >
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.2"
+                    android:weightSum="10"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="7"
+                        android:layout_height="match_parent"
+                        android:id="@+id/my_name"
+                        android:fontFamily="@font/nanumsquareroundr"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        />
+                    <!--                <TextView-->
+                    <!--                    android:layout_width="0dp"-->
+                    <!--                    android:layout_weight="3"-->
+                    <!--                    android:layout_height="match_parent"-->
+                    <!--                    android:id="@+id/profile_online"-->
+                    <!--                    android:text="온라인"-->
+                    <!--                    android:autoSizeTextType="uniform"-->
+                    <!--                    android:textColor="#00C73C"-->
+                    <!--                    />-->
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/my_text"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:text="친구"
+            >
+
+        </TextView>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:layout_gravity="right"
+            android:src="@drawable/add"
+            android:id="@+id/add_friend"
+            />
+
+    </LinearLayout>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
