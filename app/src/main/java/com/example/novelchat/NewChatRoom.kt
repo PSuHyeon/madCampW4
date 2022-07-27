@@ -15,10 +15,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.Dimension
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.slider.Slider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
@@ -52,6 +54,15 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         val your_id = intent.getStringExtra("id1")
+
+        val textSizeSlider: Slider = findViewById(R.id.slider)
+        textSizeSlider.addOnChangeListener{ slider, value, fromUser ->
+            mytext.setTextSize(Dimension.SP, value.toFloat())
+            // size도 말풍선 보낼 때 보내야함
+
+
+        }
+
 
         val mSocket= IO.socket("http://192.249.18.125:443")
         mSocket.connect()
