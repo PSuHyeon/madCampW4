@@ -45,18 +45,23 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     private var presstime: Long = 0
     lateinit var viewTv: TextView
     lateinit var subScriberTv :TextView
+    lateinit var mytext :TextView
+    lateinit var yourtext :TextView
+    lateinit var yourState :ImageView
+    lateinit var myState :ImageView
+    lateinit var myStateText :TextView
     override fun onCreate(savedInstanceState: Bundle?) {
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1);
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_chat_room)
-        viewTv = findViewById<TextView>(R.id.viewTv)
-        subScriberTv = findViewById<TextView>(R.id.subScriberTv)
+        viewTv = findViewById(R.id.viewTv)
+        subScriberTv = findViewById(R.id.subScriberTv)
         val recyclerView = findViewById< RecyclerView>(R.id.chat_recyclerView)
-        val mytext = findViewById<TextView>(R.id.my_text)
+        mytext = findViewById<TextView>(R.id.my_text)
         val mytextwrapper = findViewById<MaterialCardView>(R.id.my_text_wrapper)
-        val yourtext = findViewById<TextView>(R.id.your_text)
+        yourtext = findViewById<TextView>(R.id.your_text)
         val yourprofile = findViewById<ImageView>(R.id.your_image)
 //        val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
@@ -64,6 +69,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 //        val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         val your_id = intent.getStringExtra("id1")
+        yourState = findViewById(R.id.your_state)
+        myState = findViewById(R.id.my_state)
+        myStateText = findViewById(R.id.my_state_text)
 
         val textSizeSlider: Slider = findViewById(R.id.slider)
         textSizeSlider.addOnChangeListener{ slider, value, fromUser ->
@@ -216,18 +224,36 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
 
     }
-    private fun setXMLToggle(isViewClicked: Boolean) {
 
+//    lateinit var mytext :TextView
+//    lateinit var yourtext :TextView
+//    lateinit var yourState :ImageView
+//    lateinit var myState :ImageView
+//    lateinit var  :TextView
+
+    private fun setXMLToggle(isViewClicked: Boolean) {
         if (isViewClicked) {
             viewTv.setTextColor(Color.GRAY)
             viewTv.setBackgroundResource(0)
             subScriberTv.setTextColor(resources.getColor(R.color.gray))
             subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
+            //TODO 현재 모드에 따라 반영 마이크 끄기 등
+            mytext.text = "..."
+            yourtext.text = "..."
+            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+            myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+            myStateText.text = "ON"
         } else {
             viewTv.setTextColor(resources.getColor(R.color.gray))
             viewTv.setBackgroundResource(R.drawable.item_bg_on)
             subScriberTv.setTextColor(Color.GRAY)
             subScriberTv.setBackgroundResource(0)
+            //TODO 현재 모드에 따라 반영 마이크 끄기 등
+            mytext.text = ""
+            yourtext.text = ""
+            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
+            myState.setImageResource(R.drawable.ic_baseline_mic_24)
+            myStateText.text = "ON"
         }
     }
 

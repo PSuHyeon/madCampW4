@@ -364,7 +364,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/ic_baseline_mic_24"
-                    app:tint="@color/gray"/>
+                    app:tint="@color/gray" />
 
                 <TextView
                     android:id="@+id/my_state_text"
