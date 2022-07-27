@@ -100,9 +100,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.001"
+                    android:layout_weight="0.0005"
                     android:id="@+id/profile_id"
                     />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.0005"
+                    android:id="@+id/profile_token"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
@@ -125,6 +130,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:background="@drawable/ic_launcher_foreground"
+                        android:onClick="callFriend"
                         />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

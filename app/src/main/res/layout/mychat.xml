@@ -15,6 +15,7 @@
         android:text="여기에 입력될 예정"
         android:layout_marginRight="20dp"
         android:id="@+id/chat_my_text"
+
         />
     <TextView
         android:gravity="right"

@@ -16,8 +16,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.iid.FirebaseInstanceId
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.util.*
+
 
 class Signup : AppCompatActivity() {
     private lateinit var pic: ImageView
@@ -55,11 +58,24 @@ class Signup : AppCompatActivity() {
                 // 서버 접근
                 val queue = Volley.newRequestQueue(this)
                 val url = "http://192.249.18.125:80/signup"
+                var token = ""
                 params.put("id", id_enter.text.toString())
                 params.put("pass", pass_enter.text.toString())
                 params.put("image", "image")
                 params.put("name", name_enter.text.toString())
                 params.put("context", context_enter.text.toString())
+
+                //**********************************************************************여기 밑에 context에 넣으면됨
+                // params.put("token", 여기에 token 정보 입력)
+                FirebaseInstanceId.getInstance().instanceId
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            token = (Objects.requireNonNull(task.result)?.token).toString()
+                            Log.d("tooken", token)
+                        }
+                    }
+                params.put("token", token)
+
                 // image, position
                 // uri로 이미지 띄우기
                 val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri)

@@ -112,17 +112,18 @@
             android:id="@+id/my_image"
             />
     </LinearLayout>
+
     <com.google.android.material.slider.Slider
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:stepSize="5"
         android:value="20"
-        android:valueFrom="10"
-        android:valueTo="80"
-        android:stepSize="10"
-        app:labelBehavior="gone"
-        />
+        android:valueFrom="5"
+        android:valueTo="40"
+        app:labelBehavior="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
