@@ -1,9 +1,10 @@
 package com.example.novelchat
 
-import android.content.Context
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -16,8 +17,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -34,14 +35,16 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     private var speech: SpeechRecognizer? = null
     private val TIMEOUT: Long = 1000
     private var presstime: Long = 0
-
+    lateinit var viewTv: TextView
+    lateinit var subScriberTv :TextView
     override fun onCreate(savedInstanceState: Bundle?) {
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1);
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_chat_room)
-
+        viewTv = findViewById<TextView>(R.id.viewTv)
+        subScriberTv = findViewById<TextView>(R.id.subScriberTv)
         val recyclerView = findViewById< RecyclerView>(R.id.chat_recyclerView)
         val mytext = findViewById<TextView>(R.id.my_text)
         val yourtext = findViewById<TextView>(R.id.your_text)
@@ -49,7 +52,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
         val stt_button = findViewById<Button>(R.id.stt_button)
-        val send_button = findViewById<Button>(R.id.send_button)
+//        val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         val your_id = intent.getStringExtra("id1")
 
@@ -65,6 +68,29 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 mSocket.emit("message_from", id + "," + your_id + "," + send_edit.text.toString())
+                if (send_edit.text.contains("\n")){
+                    if(send_edit.text.isEmpty()){
+
+                    }
+                    else{
+                        if (save_check.isChecked){
+                            val now = System.currentTimeMillis()
+                            val date = Date(now)
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+                            val getTime = dateFormat.format(date)
+                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name)
+                            send_edit.setText("")
+                        }
+                        else{
+                            val now = System.currentTimeMillis()
+                            val date = Date(now)
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+                            val getTime = dateFormat.format(date)
+                            mSocket.emit("send_message", send_edit.text.toString().split("\n").get(0) + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name)
+                            send_edit.setText("")
+                        }
+                    }
+                }
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -83,27 +109,27 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             }
         })
 
-        send_button.setOnClickListener {
-            if(send_edit.text.isEmpty()){
-                Toast.makeText(this, "메세지를 입력하세요", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                if (save_check.isChecked){
-                    val now = System.currentTimeMillis()
-                    val date = Date(now)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-                    val getTime = dateFormat.format(date)
-                    mSocket.emit("send_message", send_edit.text.toString() + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name)
-                }
-                else{
-                    val now = System.currentTimeMillis()
-                    val date = Date(now)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-                    val getTime = dateFormat.format(date)
-                    mSocket.emit("send_message", send_edit.text.toString() + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name)
-                }
-            }
-        }
+//        send_button.setOnClickListener {
+//            if(send_edit.text.isEmpty()){
+//                Toast.makeText(this, "메세지를 입력하세요", Toast.LENGTH_SHORT).show()
+//            }
+//            else{
+//                if (save_check.isChecked){
+//                    val now = System.currentTimeMillis()
+//                    val date = Date(now)
+//                    val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+//                    val getTime = dateFormat.format(date)
+//                    mSocket.emit("send_message", send_edit.text.toString() + "," + id + "," + your_id + "," + getTime + "," + "save" + "," + name)
+//                }
+//                else{
+//                    val now = System.currentTimeMillis()
+//                    val date = Date(now)
+//                    val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+//                    val getTime = dateFormat.format(date)
+//                    mSocket.emit("send_message", send_edit.text.toString() + "," + id + ","+ your_id + "," + getTime + "," + "no_save"+"," + name)
+//                }
+//            }
+//        }
 
 
 
@@ -112,6 +138,16 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         var chatLogs = ArrayList<chat>()
         recyclerView.adapter = chatAdapter(this, chatLogs)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        mSocket.on("first_get", Emitter.Listener { args ->
+            val listType = object : TypeToken<ArrayList<chat?>?>() {}.type
+            val myExList: ArrayList<chat> =
+                Gson().fromJson<ArrayList<chat>>(args[0].toString(), listType)
+            chatLogs = myExList
+            runOnUiThread{
+                recyclerView.adapter = chatAdapter(this, chatLogs)
+                recyclerView.scrollToPosition(chatLogs.size - 1);
+            }
+        })
         mSocket.on("send_message", Emitter.Listener { args ->
 
             // Display the first 500 characters of the response string.
@@ -119,15 +155,47 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             val myExList: ArrayList<chat> =
                 Gson().fromJson<ArrayList<chat>>(args[0].toString(), listType)
             chatLogs = myExList
-            Log.d("po", ""+chatLogs)
             runOnUiThread{
                 recyclerView.adapter = chatAdapter(this, chatLogs)
+                recyclerView.scrollToPosition(chatLogs.size - 1);
             }
 
 
 
         })
+        mSocket.on("chat_history", Emitter.Listener { args ->
+            Log.d("heyhye", ""+args.get(0))
+            val listType = object : TypeToken<ArrayList<chat?>?>() {}.type
+            val myExList: ArrayList<chat> =
+                Gson().fromJson<ArrayList<chat>>(args[0].toString(), listType)
+            chatLogs = myExList
+            runOnUiThread{
+                recyclerView.adapter = chatAdapter(this, chatLogs)
+                recyclerView.scrollToPosition(chatLogs.size - 1);
+            }
+        })
 
+        viewTv.setOnClickListener {
+            setXMLToggle(false)
+        }
+        subScriberTv.setOnClickListener {
+            setXMLToggle(true)
+        }
+
+    }
+    private fun setXMLToggle(isViewClicked: Boolean) {
+
+        if (isViewClicked) {
+            viewTv.setTextColor(Color.GRAY)
+            viewTv.setBackgroundResource(0)
+            subScriberTv.setTextColor(resources.getColor(R.color.white))
+            subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
+        } else {
+            viewTv.setTextColor(resources.getColor(R.color.white))
+            viewTv.setBackgroundResource(R.drawable.item_bg_on)
+            subScriberTv.setTextColor(Color.GRAY)
+            subScriberTv.setBackgroundResource(0)
+        }
     }
 
     fun startRecognition(view: android.view.View) {

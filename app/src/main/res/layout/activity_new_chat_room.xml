@@ -9,6 +9,60 @@
     android:weightSum="10"
     >
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+    >
+        ----
+
+        <LinearLayout
+
+            android:id="@+id/xmlLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/item_bg_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            >
+
+            <TextView
+                android:id="@+id/viewTv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/item_bg_on"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="ooo"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/subScriberTv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="15dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="20dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:text="iii"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -79,16 +133,9 @@
             android:onClick="startRecognition"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="STT" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="전송"
-            android:id="@+id/send_button"
-            />
         <CheckBox
             android:layout_width="0dp"
             android:layout_height="match_parent"
