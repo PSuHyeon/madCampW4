@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">NovelChat</string>
+    <string name="app_name">TikiTalk</string>
+    <string name="signup"><u>Sign up</u></string>
 </resources>

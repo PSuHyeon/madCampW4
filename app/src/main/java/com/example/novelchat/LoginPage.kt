@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -26,7 +27,7 @@ class LoginPage : AppCompatActivity() {
         setContentView(R.layout.activity_login_page)
 
         val login_button = findViewById<Button>(R.id.login_button)
-        val signup_button = findViewById<Button>(R.id.signup_button)
+        val signup_button = findViewById<AppCompatButton>(R.id.signup_button)
 
         val id_text = findViewById<EditText>(R.id.id)
         val pass_text = findViewById<EditText>(R.id.password)
