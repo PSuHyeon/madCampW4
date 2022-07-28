@@ -237,10 +237,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         })
 
         viewTv.setOnClickListener {
+            Log.d("click", "false")
             setXMLToggle(false)
+            mSocket.emit("tofalse", id + "," + your_id)
         }
         subScriberTv.setOnClickListener {
+            Log.d("click", "true")
             setXMLToggle(true)
+            mSocket.emit("totrue", id + "," + your_id)
         }
 
         send_edit.isFocusable = true;
@@ -264,6 +268,19 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO)) {
                 initializeAndJoinChannel();
             }
+        })
+
+        mSocket.on("toggle", Emitter.Listener {
+            args ->
+            runOnUiThread {
+                if (args.get(0) == "true"){
+                    setXMLToggle(true)
+                }
+                else{
+                    setXMLToggle(false)
+                }
+            }
+
         })
     }
 
