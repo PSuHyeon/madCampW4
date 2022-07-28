@@ -63,6 +63,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     lateinit var myState :ImageView
     lateinit var myStateText :TextView
     lateinit var stt_button :CardView
+    lateinit var exitBtn : CardView
     var isCallMode :Boolean = false
     var speakerOn :Boolean = false
 
@@ -90,6 +91,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_chat_room)
         viewTv = findViewById(R.id.viewTv)
+        exitBtn = findViewById(R.id.exitBtn)
         subScriberTv = findViewById(R.id.subScriberTv)
         val recyclerView = findViewById< RecyclerView>(R.id.chat_recyclerView)
         mytext = findViewById<TextView>(R.id.my_text)
@@ -249,6 +251,10 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             mSocket.emit("totrue", id + "," + your_id)
         }
 
+        exitBtn.setOnClickListener {
+            finish()
+        }
+
         send_edit.isFocusable = true;
 //        send_edit.setFocusableInTouchMode(true);
         mytextwrapper.setOnClickListener {
@@ -283,6 +289,29 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 }
             }
 
+        })
+
+        mSocket.on("image_change", Emitter.Listener{
+            args ->
+            Log.d("image_change", ""+args)
+                runOnUiThread {
+                    if (isCallMode){
+                        if (args.get(0) == "off"){
+                            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+                        }
+                        else{
+                            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+                        }
+                }
+                    else{
+                        if (args.get(0) == "off"){
+                            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+                        }
+                        else{
+                            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
+                        }
+                    }
+        }
         })
     }
 
@@ -338,12 +367,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
                 myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
                 myStateText.text = "OFF"
+                mSocket.emit("micOff", id + "," + your_id)
             }
             else{
                 startRecognition()
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
                 myState.setImageResource(R.drawable.ic_baseline_mic_24)
                 myStateText.text = "ON"
+                mSocket.emit("micOn", id + "," + your_id)
             }
         } else { // 통화 모드
             speakerOn = !speakerOn
@@ -352,12 +383,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
                 myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
                 myStateText.text = "OFF"
+                mSocket.emit("micOff", id + "," + your_id)
             } else {
                 mRtcEngine!!.adjustRecordingSignalVolume(100);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
                 mytext.text = "..."
                 myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
                 myStateText.text = "ON"
+                mSocket.emit("micOn", id + "," + your_id)
 
             }
         }

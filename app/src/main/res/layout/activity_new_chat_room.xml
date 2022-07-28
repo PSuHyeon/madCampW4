@@ -122,7 +122,8 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_baseline_exit_to_app_24"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"
+                    />
 
             </androidx.cardview.widget.CardView>
 
