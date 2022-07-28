@@ -237,6 +237,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
                 com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()
                 val intent = Intent(context, NewChatRoom::class.java)
                 intent.putExtra("id1", profile_id.text.toString())
+                intent.putExtra("yourName", profile_name.text.toString())
                 context.startActivity(intent)
             }
 

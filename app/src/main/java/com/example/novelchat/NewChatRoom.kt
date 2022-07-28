@@ -47,7 +47,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log
 
-
 lateinit var yourImage: Bitmap
 //lateinit var myImage: Bitmap
 lateinit var your_id: String
@@ -64,6 +63,8 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     lateinit var yourState :ImageView
     lateinit var myState :ImageView
     lateinit var myStateText :TextView
+    lateinit var yourName :TextView
+    lateinit var your_name :String
     lateinit var stt_button :CardView
     var isCallMode :Boolean = false
     var speakerOn :Boolean = false
@@ -97,6 +98,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         mytext = findViewById<TextView>(R.id.my_text)
         val mytextwrapper = findViewById<MaterialCardView>(R.id.my_text_wrapper)
         yourtext = findViewById<TextView>(R.id.your_text)
+        yourName = findViewById(R.id.your_name)
         val yourprofile = findViewById<ImageView>(R.id.your_image)
 //        val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
@@ -105,6 +107,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val save_check = findViewById<CheckBox>(R.id.save_check)
         USERACCOUNT = id;
         your_id = intent.getStringExtra("id1").toString()
+        your_name = intent.getStringExtra("yourName").toString()
         yourState = findViewById(R.id.your_state)
         myState = findViewById(R.id.my_state)
         myStateText = findViewById(R.id.my_state_text)
@@ -199,6 +202,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
 
         yourprofile.setImageBitmap(yourImage)
+        yourName.text = your_name
 //        myprofile.setImageBitmap(myImage)
         var chatLogs = ArrayList<chat>()
         recyclerView.adapter = chatAdapter(this, chatLogs)
