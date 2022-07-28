@@ -186,8 +186,8 @@ class friendsList : AppCompatActivity() {
     }
 
     override fun onDetachedFromWindow() {
-        mSocket.emit("iamout", id)
         super.onDetachedFromWindow()
+        mSocket.emit("iamout", id)
     }
 }
 
