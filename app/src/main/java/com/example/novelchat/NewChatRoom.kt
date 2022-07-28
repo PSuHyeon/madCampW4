@@ -331,12 +331,12 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         } else { // 통화 모드
             speakerOn = !speakerOn
             if (!speakerOn) {
-//                mRtcEngine!!.adjustRecordingSignalVolume(0);
+                mRtcEngine!!.adjustRecordingSignalVolume(0);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
                 myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
                 myStateText.text = "OFF"
             } else {
-//                mRtcEngine!!.adjustRecordingSignalVolume(100);
+                mRtcEngine!!.adjustRecordingSignalVolume(100);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
                 mytext.text = "..."
                 myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
@@ -457,7 +457,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 //        mChannelMediaOptions!!.autoSubscribeVideo = true
 //        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0, mChannelMediaOptions)
         var errCode = mRtcEngine!!.joinChannelWithUserAccount(TOKEN, CHANNEL, USERACCOUNT)
-//        mRtcEngine!!.adjustRecordingSignalVolume(0);
+        mRtcEngine!!.adjustRecordingSignalVolume(0);
         Log.d("errCode", errCode.toString())
         Log.d("TOKEN", TOKEN)
         Log.d("CHANNEL", CHANNEL)
