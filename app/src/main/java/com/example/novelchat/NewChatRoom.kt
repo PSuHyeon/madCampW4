@@ -63,6 +63,8 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     lateinit var myState :ImageView
     lateinit var myStateText :TextView
     lateinit var stt_button :CardView
+    var isCallMode :Boolean = false
+    var speakerOn :Boolean = false
 
     // VOICE CHAT
     private val PERMISSION_REQ_ID_RECORD_AUDIO = 22
@@ -286,11 +288,12 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             subScriberTv.setTextColor(resources.getColor(R.color.gray))
             subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
             //TODO 현재 모드에 따라 반영 마이크 끄기 등
-            mytext.text = "..."
-            yourtext.text = "..."
-            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
-            myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
-            myStateText.text = "ON"
+            isCallMode = true
+//            mytext.text = "..."
+//            yourtext.text = "..."
+            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+            myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+            myStateText.text = "OFF"
             mSocket.emit("voice_chat_init", USERACCOUNT + "," + your_id)
         } else {
             viewTv.setTextColor(resources.getColor(R.color.gray))
@@ -298,28 +301,49 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             subScriberTv.setTextColor(Color.GRAY)
             subScriberTv.setBackgroundResource(0)
             //TODO 현재 모드에 따라 반영 마이크 끄기 등
-            mytext.text = ""
-            yourtext.text = ""
-            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
-            myState.setImageResource(R.drawable.ic_baseline_mic_24)
-            myStateText.text = "ON"
+            isCallMode = false
+//            mytext.text = ""
+//            yourtext.text = ""
+            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+            myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+            myStateText.text = "OFF"
             mRtcEngine?.leaveChannel()
             RtcEngine.destroy()
         }
     }
 
     fun onClickSTT(view: android.view.View){
-        sttONOFF += 1
-        sttONOFF %= 2
-        if(sttONOFF == 0){
-            stopRecognition()
-            stt_button.setBackgroundColor(Color.GRAY)
-        }
-        else{
-            startRecognition()
-            stt_button.setBackgroundColor(Color.RED)
-        }
+        if (!isCallMode) { // 문자 모드
+            sttONOFF += 1
+            sttONOFF %= 2
+            if(sttONOFF == 0){
+                stopRecognition()
+                stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
+                myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+                myStateText.text = "OFF"
+            }
+            else{
+                startRecognition()
+                stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
+                myState.setImageResource(R.drawable.ic_baseline_mic_24)
+                myStateText.text = "ON"
+            }
+        } else { // 통화 모드
+            speakerOn = !speakerOn
+            if (!speakerOn) {
+//                mRtcEngine!!.adjustRecordingSignalVolume(0);
+                stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
+                myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+                myStateText.text = "OFF"
+            } else {
+//                mRtcEngine!!.adjustRecordingSignalVolume(100);
+                stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
+                mytext.text = "..."
+                myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+                myStateText.text = "ON"
 
+            }
+        }
     }
 
     fun startRecognition() {
@@ -433,6 +457,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 //        mChannelMediaOptions!!.autoSubscribeVideo = true
 //        var errCode = mRtcEngine!!.joinChannel(TOKEN, CHANNEL, "", 0, mChannelMediaOptions)
         var errCode = mRtcEngine!!.joinChannelWithUserAccount(TOKEN, CHANNEL, USERACCOUNT)
+//        mRtcEngine!!.adjustRecordingSignalVolume(0);
         Log.d("errCode", errCode.toString())
         Log.d("TOKEN", TOKEN)
         Log.d("CHANNEL", CHANNEL)

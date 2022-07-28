@@ -57,7 +57,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/your_name"
-                android:src="@drawable/ic_baseline_mic_24"
+                android:src="@drawable/ic_baseline_mic_off_24"
                 app:tint="@color/gray" />
 
         </RelativeLayout>
@@ -351,7 +351,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            app:cardBackgroundColor="@color/greenMain"
+            app:cardBackgroundColor="@color/lightgray"
             >
             <RelativeLayout
                 android:layout_height="match_parent"
@@ -363,7 +363,7 @@
                     android:id="@+id/my_state"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/ic_baseline_mic_24"
+                    android:src="@drawable/ic_baseline_mic_off_24"
                     app:tint="@color/gray" />
 
                 <TextView
@@ -374,7 +374,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_toRightOf="@id/my_state"
                     android:fontFamily="@font/nanumsquareroundr"
-                    android:text="ON"
+                    android:text="OFF"
                     android:textColor="@color/gray"
                     android:textSize="14dp" />
 
