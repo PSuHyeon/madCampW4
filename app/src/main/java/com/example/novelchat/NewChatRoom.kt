@@ -206,6 +206,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         yourprofile.setImageBitmap(yourImage)
         yourName.text = your_name
 //        myprofile.setImageBitmap(myImage)
+
         var chatLogs = ArrayList<chat>()
         recyclerView.adapter = chatAdapter(this, chatLogs)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -303,18 +304,24 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 runOnUiThread {
                     if (isCallMode){
                         if (args.get(0) == "off"){
-                            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+                            yourState.visibility = View.GONE
                         }
                         else{
-                            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+                            yourState.visibility = View.VISIBLE
+                            Glide.with(this).load(R.raw.blikingred).into(yourState)
                         }
                 }
                     else{
                         if (args.get(0) == "off"){
-                            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+                            yourState.visibility = View.GONE
                         }
                         else{
-                            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
+                            yourState.visibility = View.VISIBLE
+                            Glide.with(this).load(R.raw.blikingred).into(yourState)
                         }
                     }
         }
@@ -346,8 +353,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 //            yourtext.text = "..."
 //            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
 //            Glide.with(this).load(R.raw.blikingred).override(560, 560).into(yourState)
-            Glide.with(this).load(R.raw.blikingred).into(yourState)
-            myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            Glide.with(this).load(R.raw.blikingred).into(yourState)
+            stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
+            myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
             myStateText.text = "OFF"
             mSocket.emit("voice_chat_init", USERACCOUNT + "," + your_id)
         } else {
@@ -360,9 +368,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 //            mytext.text = ""
 //            yourtext.text = ""
 //            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
-            Glide.with(this).load(R.raw.blikingred).into(yourState)
-
-            myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//            Glide.with(this).load(R.raw.blikingred).into(yourState)
+            stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
+            myState.setImageResource(R.drawable.ic_stt)
             myStateText.text = "OFF"
             mRtcEngine?.leaveChannel()
             RtcEngine.destroy()
@@ -376,14 +384,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             if(sttONOFF == 0){
                 stopRecognition()
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
-                myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+                myState.setImageResource(R.drawable.ic_stt)
                 myStateText.text = "OFF"
                 mSocket.emit("micOff", id + "," + your_id)
             }
             else{
                 startRecognition()
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
-                myState.setImageResource(R.drawable.ic_baseline_mic_24)
+                myState.setImageResource(R.drawable.ic_stt)
                 myStateText.text = "ON"
                 mSocket.emit("micOn", id + "," + your_id)
             }
@@ -392,14 +400,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             if (!speakerOn) {
                 mRtcEngine!!.adjustRecordingSignalVolume(0);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
-                myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+                myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
                 myStateText.text = "OFF"
                 mSocket.emit("micOff", id + "," + your_id)
             } else {
                 mRtcEngine!!.adjustRecordingSignalVolume(100);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
                 mytext.text = "..."
-                myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+                myState.setImageResource(R.drawable.ic_baseline_mic_24)
                 myStateText.text = "ON"
                 mSocket.emit("micOn", id + "," + your_id)
 

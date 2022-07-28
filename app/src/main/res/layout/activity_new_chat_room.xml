@@ -83,7 +83,8 @@
                         android:id="@+id/your_state"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"/>
                 </androidx.cardview.widget.CardView>
 
 
@@ -358,7 +359,7 @@
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/slider"
-                android:layout_width="300dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/text_size_icon"
@@ -370,8 +371,7 @@
                 app:thumbColor="@color/white"
                 app:thumbRadius="8dp"
                 app:trackColorActive="@color/white"
-                app:trackColorInactive="#5E000000"
-                />
+                app:trackColorInactive="#5E000000" />
 
         </RelativeLayout>
         <androidx.cardview.widget.CardView
@@ -393,9 +393,10 @@
 
                 <ImageView
                     android:id="@+id/my_state"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_baseline_mic_off_24"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_stt"
                     app:tint="@color/gray" />
 
                 <TextView
