@@ -329,6 +329,20 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                     }
         }
         })
+
+        mSocket.on("typing_signal", Emitter.Listener{
+            runOnUiThread {
+                yourtext.text = "..."
+            }
+
+        })
+
+        mSocket.on("no_typing_signal", Emitter.Listener{
+           runOnUiThread {
+               yourtext.text = ""
+           }
+
+        })
     }
 
     override fun onDestroy() {
@@ -390,6 +404,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 myState.setImageResource(R.drawable.ic_stt)
                 myStateText.text = "OFF"
                 mSocket.emit("micOff", id + "," + your_id)
+                mSocket.emit("i_am_not_typing", id + "," + your_id)
             }
             else{
                 startRecognition()
@@ -397,6 +412,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 myState.setImageResource(R.drawable.ic_stt)
                 myStateText.text = "ON"
                 mSocket.emit("micOn", id + "," + your_id)
+                mSocket.emit("i_am_typing", id + "," + your_id)
             }
         } else { // 통화 모드
             speakerOn = !speakerOn
@@ -552,7 +568,7 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     fun View.setOnVeryLongClickListener(listener: () -> Unit) {
         setOnTouchListener(object : View.OnTouchListener {
 
-            private val longClickDuration = 2000L
+            private val longClickDuration = 1000L
             private val handler = Handler()
 
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
