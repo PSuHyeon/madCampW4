@@ -128,20 +128,28 @@
                 android:gravity="center"
                 >
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/btnCallFriend"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="2dp"
                     app:cardBackgroundColor="#F0FFFFFF"
                     android:layout_marginLeft="6dp"
+                    android:visibility="gone"
                     >
+<!--                    <Button-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:background="@drawable/ic_knocking"-->
+<!--                        app:backgroundTint="@color/greenMain"-->
+<!--                        />-->
                     <Button
-                        android:id="@+id/btnCallFriend"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_knock"
-                        app:backgroundTint="@color/greenMain"
+                        android:background="@drawable/ic_knocking"
+                        app:backgroundTint="#06ECB2"
                         />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

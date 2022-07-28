@@ -204,6 +204,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         if (array.get(position).onoff == "off"){
 //            holder.profile_onoff.setBackgroundColor(Color.RED)
             holder.profile_onoff.visibility = View.GONE
+            holder.call_friend_btn.visibility = View.VISIBLE
         }
         holder.call_friend_btn.setOnClickListener{
             Log.d("tooken--", "call-friend-btn")
@@ -230,7 +231,7 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         val profile_id = itemView.findViewById<TextView>(R.id.profile_id)
         val profile_token = itemView.findViewById<TextView>(R.id.profile_token)
         val profile_onoff = itemView.findViewById<CardView>(R.id.profile_onoff)
-        val call_friend_btn = itemView.findViewById<Button>(R.id.btnCallFriend)
+        val call_friend_btn = itemView.findViewById<CardView>(R.id.btnCallFriend)
         init{
             itemView.setOnClickListener {
                 com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()
