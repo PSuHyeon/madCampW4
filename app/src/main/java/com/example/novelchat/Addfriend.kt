@@ -90,10 +90,10 @@ class Addfriend : AppCompatActivity() {
                             find_id.text = "null"
                         }
                         else{
-                            find_id.text = "아이디: \t" + it.getString("id")
+                            find_id.text = it.getString("id")
                             find_image.setImageBitmap(StringToBitmap(it.getString("image")))
-                            find_name.text = "이름: \t" + it.getString("name")
-                            find_context.text = "상태메세지: \t" + it.getString("context")
+                            find_name.text = it.getString("name")
+                            find_context.text = it.getString("context")
                             found_friend.visibility = View.VISIBLE
                             add_button.visibility = View.VISIBLE
                         }
