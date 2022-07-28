@@ -30,6 +30,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import com.google.gson.Gson
@@ -44,7 +46,6 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log
-
 
 lateinit var yourImage: Bitmap
 //lateinit var myImage: Bitmap
@@ -62,6 +63,8 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     lateinit var yourState :ImageView
     lateinit var myState :ImageView
     lateinit var myStateText :TextView
+    lateinit var yourName :TextView
+    lateinit var your_name :String
     lateinit var stt_button :CardView
     lateinit var exitBtn : CardView
     var isCallMode :Boolean = false
@@ -97,6 +100,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         mytext = findViewById<TextView>(R.id.my_text)
         val mytextwrapper = findViewById<MaterialCardView>(R.id.my_text_wrapper)
         yourtext = findViewById<TextView>(R.id.your_text)
+        yourName = findViewById(R.id.your_name)
         val yourprofile = findViewById<ImageView>(R.id.your_image)
 //        val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
@@ -105,6 +109,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val save_check = findViewById<CheckBox>(R.id.save_check)
         USERACCOUNT = id;
         your_id = intent.getStringExtra("id1").toString()
+        your_name = intent.getStringExtra("yourName").toString()
         yourState = findViewById(R.id.your_state)
         myState = findViewById(R.id.my_state)
         myStateText = findViewById(R.id.my_state_text)
@@ -199,7 +204,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
 
         yourprofile.setImageBitmap(yourImage)
+        yourName.text = your_name
 //        myprofile.setImageBitmap(myImage)
+
         var chatLogs = ArrayList<chat>()
         recyclerView.adapter = chatAdapter(this, chatLogs)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -300,18 +307,24 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
                 runOnUiThread {
                     if (isCallMode){
                         if (args.get(0) == "off"){
-                            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+                            yourState.visibility = View.GONE
                         }
                         else{
-                            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+                            yourState.visibility = View.VISIBLE
+                            Glide.with(this).load(R.raw.blikingred).into(yourState)
                         }
                 }
                     else{
                         if (args.get(0) == "off"){
-                            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+                            yourState.visibility = View.GONE
                         }
                         else{
-                            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
+//                            yourState.setImageResource(R.drawable.ic_baseline_mic_24)
+                            yourState.visibility = View.VISIBLE
+                            Glide.with(this).load(R.raw.blikingred).into(yourState)
                         }
                     }
         }
@@ -337,11 +350,15 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             subScriberTv.setTextColor(resources.getColor(R.color.gray))
             subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
             //TODO 현재 모드에 따라 반영 마이크 끄기 등
+            stopRecognition()
             isCallMode = true
 //            mytext.text = "..."
 //            yourtext.text = "..."
-            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
-            myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            Glide.with(this).load(R.raw.blikingred).override(560, 560).into(yourState)
+//            Glide.with(this).load(R.raw.blikingred).into(yourState)
+            stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
+            myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
             myStateText.text = "OFF"
             mSocket.emit("voice_chat_init", USERACCOUNT + "," + your_id)
         } else {
@@ -353,8 +370,10 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             isCallMode = false
 //            mytext.text = ""
 //            yourtext.text = ""
-            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
-            myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//            Glide.with(this).load(R.raw.blikingred).into(yourState)
+            stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
+            myState.setImageResource(R.drawable.ic_stt)
             myStateText.text = "OFF"
             mRtcEngine?.leaveChannel()
             RtcEngine.destroy()
@@ -368,14 +387,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             if(sttONOFF == 0){
                 stopRecognition()
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
-                myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+                myState.setImageResource(R.drawable.ic_stt)
                 myStateText.text = "OFF"
                 mSocket.emit("micOff", id + "," + your_id)
             }
             else{
                 startRecognition()
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
-                myState.setImageResource(R.drawable.ic_baseline_mic_24)
+                myState.setImageResource(R.drawable.ic_stt)
                 myStateText.text = "ON"
                 mSocket.emit("micOn", id + "," + your_id)
             }
@@ -384,14 +403,14 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             if (!speakerOn) {
                 mRtcEngine!!.adjustRecordingSignalVolume(0);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.lightgray))
-                myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+                myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
                 myStateText.text = "OFF"
                 mSocket.emit("micOff", id + "," + your_id)
             } else {
                 mRtcEngine!!.adjustRecordingSignalVolume(100);
                 stt_button.setCardBackgroundColor(resources.getColor(R.color.greenMain))
                 mytext.text = "..."
-                myState.setImageResource(R.drawable.ic_baseline_volume_up_24)
+                myState.setImageResource(R.drawable.ic_baseline_mic_24)
                 myStateText.text = "ON"
                 mSocket.emit("micOn", id + "," + your_id)
 
@@ -517,7 +536,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         Log.d("CHANNEL", CHANNEL)
     }
 }
-class chat(val name : String, val time : String, val text: String, val id: String, val size: Float)
+class chat(val name : String, val time : String, val text: String, val id: String, val size: Float, val stoid: String)
 class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
@@ -548,10 +567,16 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyHolder){
-            Log.d("hihi", ""+arrayList.get(position).text)
             holder.my_text.text = arrayList.get(position).text
             holder.my_time.text = arrayList.get(position).time
             holder.my_text.setTextSize(Dimension.SP, arrayList.get(position).size)
+            if(arrayList.get(position).stoid == "saved"){
+                holder.my_saved.text = "저장됨"
+            }
+            else{
+                holder.my_saved.text = ""
+            }
+
         }
         else if (holder is YourHolder){
 //            holder.your_image.setImageBitmap(yourImage)
@@ -559,6 +584,12 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
 //            holder.your_name.text = arrayList.get(position).name
             holder.your_time.text = arrayList.get(position).time
             holder.your_text.setTextSize(Dimension.SP, arrayList.get(position).size)
+            if(arrayList.get(position).stoid == "saved"){
+                holder.your_saved.text = "저장됨"
+            }
+            else{
+                holder.your_saved.text = ""
+            }
         }
     }
 
@@ -578,9 +609,12 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     inner class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val my_text = itemView.findViewById<TextView>(R.id.chat_my_text)
         val my_time = itemView.findViewById<TextView>(R.id.chat_my_time)
+        val my_saved = itemView.findViewById<TextView>(R.id.saved_mine)
         init {
             itemView.setOnVeryLongClickListener {
                 mSocket.emit("save_m", id +"," + your_id + "," + my_text.text.toString() + "," + my_time.text.toString())
+                my_saved.text = "저장됨"
+                Toast.makeText(context, "저장 완료!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -589,10 +623,13 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
 //        val your_image = itemView.findViewById<ImageView>(R.id.chat_your_profile)
         val your_text = itemView.findViewById<TextView>(R.id.chat_your_text)
         val your_time = itemView.findViewById<TextView>(R.id.chat_your_time)
+        val your_saved = itemView.findViewById<TextView>(R.id.saved_yours)
 //        val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
         init {
             itemView.setOnVeryLongClickListener {
                 mSocket.emit("save_m", id +"," + your_id + "," + your_text.text.toString() + "," + your_time.text.toString())
+                your_saved.text = "저장됨"
+                Toast.makeText(context, "저장 완료!", Toast.LENGTH_SHORT).show()
             }
         }
 
