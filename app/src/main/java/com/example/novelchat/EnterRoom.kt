@@ -10,7 +10,7 @@ import android.widget.Toast
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-lateinit var mSocket: Socket
+
 class EnterRoom : AppCompatActivity() {
     private var entered = false
     override fun onCreate(savedInstanceState: Bundle?) {

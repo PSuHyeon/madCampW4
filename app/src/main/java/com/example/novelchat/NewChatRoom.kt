@@ -514,7 +514,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         Log.d("CHANNEL", CHANNEL)
     }
 }
-class chat(val name : String, val time : String, val text: String, val id: String, val size: Float)
+class chat(val name : String, val time : String, val text: String, val id: String, val size: Float, val stoid: String)
 class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
@@ -545,10 +545,16 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyHolder){
-            Log.d("hihi", ""+arrayList.get(position).text)
             holder.my_text.text = arrayList.get(position).text
             holder.my_time.text = arrayList.get(position).time
             holder.my_text.setTextSize(Dimension.SP, arrayList.get(position).size)
+            if(arrayList.get(position).stoid == "saved"){
+                holder.my_saved.text = "저장됨"
+            }
+            else{
+                holder.my_saved.text = ""
+            }
+
         }
         else if (holder is YourHolder){
 //            holder.your_image.setImageBitmap(yourImage)
@@ -556,6 +562,12 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
 //            holder.your_name.text = arrayList.get(position).name
             holder.your_time.text = arrayList.get(position).time
             holder.your_text.setTextSize(Dimension.SP, arrayList.get(position).size)
+            if(arrayList.get(position).stoid == "saved"){
+                holder.your_saved.text = "저장됨"
+            }
+            else{
+                holder.your_saved.text = ""
+            }
         }
     }
 
@@ -575,9 +587,12 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
     inner class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val my_text = itemView.findViewById<TextView>(R.id.chat_my_text)
         val my_time = itemView.findViewById<TextView>(R.id.chat_my_time)
+        val my_saved = itemView.findViewById<TextView>(R.id.saved_mine)
         init {
             itemView.setOnVeryLongClickListener {
                 mSocket.emit("save_m", id +"," + your_id + "," + my_text.text.toString() + "," + my_time.text.toString())
+                my_saved.text = "저장됨"
+                Toast.makeText(context, "저장 완료!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -586,10 +601,13 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
 //        val your_image = itemView.findViewById<ImageView>(R.id.chat_your_profile)
         val your_text = itemView.findViewById<TextView>(R.id.chat_your_text)
         val your_time = itemView.findViewById<TextView>(R.id.chat_your_time)
+        val your_saved = itemView.findViewById<TextView>(R.id.saved_yours)
 //        val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
         init {
             itemView.setOnVeryLongClickListener {
                 mSocket.emit("save_m", id +"," + your_id + "," + your_text.text.toString() + "," + your_time.text.toString())
+                your_saved.text = "저장됨"
+                Toast.makeText(context, "저장 완료!", Toast.LENGTH_SHORT).show()
             }
         }
 

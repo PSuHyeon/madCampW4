@@ -24,9 +24,10 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.example.novelchat.friendsList.Companion.my_name
 import com.google.android.material.card.MaterialCardView
 import io.socket.client.IO
+import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
-
+lateinit var mSocket: Socket
 lateinit var id: String
 lateinit var name: String
 class friendsList : AppCompatActivity() {
@@ -63,7 +64,7 @@ class friendsList : AppCompatActivity() {
 
         id = intent.getStringExtra("id")!!
         name = intent.getStringExtra("name")!!
-
+        startService(Intent(this, OnDestroy::class.java))
         mSocket.emit("iamon", id)
 
         mSocket.on("whoison", Emitter.Listener{ args ->
@@ -180,6 +181,11 @@ class friendsList : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mSocket.emit("iamout", id)
+    }
+
+    override fun onDetachedFromWindow() {
+        mSocket.emit("iamout", id)
+        super.onDetachedFromWindow()
     }
 }
 

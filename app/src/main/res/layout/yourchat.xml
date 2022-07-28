@@ -80,7 +80,15 @@ android:layout_height="wrap_content"
 
 </com.google.android.material.card.MaterialCardView>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/chat_your_time"
+        android:text="저장됨"
+        android:textSize="10dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/saved_yours"
+        />
     <TextView
         android:id="@+id/chat_your_time"
         android:layout_width="wrap_content"
