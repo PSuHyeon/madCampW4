@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Vibrator
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -61,6 +62,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     lateinit var yourState :ImageView
     lateinit var myState :ImageView
     lateinit var myStateText :TextView
+    lateinit var stt_button :CardView
 
     // VOICE CHAT
     private val PERMISSION_REQ_ID_RECORD_AUDIO = 22
@@ -94,7 +96,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val yourprofile = findViewById<ImageView>(R.id.your_image)
 //        val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
-        val stt_button = findViewById<CardView>(R.id.stt_button)
+        stt_button = findViewById(R.id.stt_button)
 //        val send_button = findViewById<Button>(R.id.send_button)
         val save_check = findViewById<CheckBox>(R.id.save_check)
         USERACCOUNT = id;
@@ -307,8 +309,6 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     }
 
     fun onClickSTT(view: android.view.View){
-        val stt_button = findViewById<Button>(R.id.stt_button)
-
         sttONOFF += 1
         sttONOFF %= 2
         if(sttONOFF == 0){
@@ -511,7 +511,6 @@ class chatAdapter(val context: Context, val arrayList: ArrayList<chat>): Recycle
         val your_text = itemView.findViewById<TextView>(R.id.chat_your_text)
         val your_time = itemView.findViewById<TextView>(R.id.chat_your_time)
 //        val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
-        val your_name = itemView.findViewById<TextView>(R.id.chat_your_name)
         init {
             itemView.setOnVeryLongClickListener {
                 mSocket.emit("save_m", id +"," + your_id + "," + your_text.text.toString() + "," + your_time.text.toString())
