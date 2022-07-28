@@ -2,6 +2,7 @@ package com.example.novelchat
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,8 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+
+lateinit var myImage: Bitmap
 
 class LoginPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
