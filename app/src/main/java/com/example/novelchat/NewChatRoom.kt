@@ -30,6 +30,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import com.google.gson.Gson
@@ -44,7 +46,6 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log
-
 
 lateinit var yourImage: Bitmap
 //lateinit var myImage: Bitmap
@@ -62,6 +63,8 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
     lateinit var yourState :ImageView
     lateinit var myState :ImageView
     lateinit var myStateText :TextView
+    lateinit var yourName :TextView
+    lateinit var your_name :String
     lateinit var stt_button :CardView
     lateinit var exitBtn : CardView
     var isCallMode :Boolean = false
@@ -97,6 +100,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         mytext = findViewById<TextView>(R.id.my_text)
         val mytextwrapper = findViewById<MaterialCardView>(R.id.my_text_wrapper)
         yourtext = findViewById<TextView>(R.id.your_text)
+        yourName = findViewById(R.id.your_name)
         val yourprofile = findViewById<ImageView>(R.id.your_image)
 //        val myprofile = findViewById<ImageView>(R.id.my_image)
         val send_edit = findViewById<EditText>(R.id.send_edit_text)
@@ -105,6 +109,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val save_check = findViewById<CheckBox>(R.id.save_check)
         USERACCOUNT = id;
         your_id = intent.getStringExtra("id1").toString()
+        your_name = intent.getStringExtra("yourName").toString()
         yourState = findViewById(R.id.your_state)
         myState = findViewById(R.id.my_state)
         myStateText = findViewById(R.id.my_state_text)
@@ -199,6 +204,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
 
 
         yourprofile.setImageBitmap(yourImage)
+        yourName.text = your_name
 //        myprofile.setImageBitmap(myImage)
         var chatLogs = ArrayList<chat>()
         recyclerView.adapter = chatAdapter(this, chatLogs)
@@ -334,10 +340,13 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             subScriberTv.setTextColor(resources.getColor(R.color.gray))
             subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
             //TODO 현재 모드에 따라 반영 마이크 끄기 등
+            stopRecognition()
             isCallMode = true
 //            mytext.text = "..."
 //            yourtext.text = "..."
-            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            Glide.with(this).load(R.raw.blikingred).override(560, 560).into(yourState)
+            Glide.with(this).load(R.raw.blikingred).into(yourState)
             myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
             myStateText.text = "OFF"
             mSocket.emit("voice_chat_init", USERACCOUNT + "," + your_id)
@@ -350,7 +359,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             isCallMode = false
 //            mytext.text = ""
 //            yourtext.text = ""
-            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+            Glide.with(this).load(R.raw.blikingred).into(yourState)
+
             myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
             myStateText.text = "OFF"
             mRtcEngine?.leaveChannel()
