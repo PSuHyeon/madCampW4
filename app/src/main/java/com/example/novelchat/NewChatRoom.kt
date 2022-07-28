@@ -259,6 +259,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         }
 
         exitBtn.setOnClickListener {
+            if(sttONOFF == 1){
+                stopRecognition()
+            }
             finish()
         }
 

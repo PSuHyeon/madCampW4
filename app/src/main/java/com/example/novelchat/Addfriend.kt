@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
@@ -24,6 +26,7 @@ class Addfriend : AppCompatActivity() {
         val find_context = findViewById<TextView>(R.id.find_context)
         val add_button = findViewById<Button>(R.id.find_add)
         val find_id = findViewById<TextView>(R.id.find_id)
+        val found_friend = findViewById<com.google.android.material.card.MaterialCardView>(R.id.found_friend)
 
         add_button.setOnClickListener {
 
@@ -65,6 +68,7 @@ class Addfriend : AppCompatActivity() {
                 Toast.makeText(this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show()
             }
             else{
+                enter_id.onEditorAction(EditorInfo.IME_ACTION_DONE)
                 val params = HashMap<String, String>()
                 // 서버 접근
                 val queue = Volley.newRequestQueue(this)
@@ -86,10 +90,12 @@ class Addfriend : AppCompatActivity() {
                             find_id.text = "null"
                         }
                         else{
-                            find_id.text = it.getString("id")
+                            find_id.text = "아이디: \t" + it.getString("id")
                             find_image.setImageBitmap(StringToBitmap(it.getString("image")))
-                            find_name.text = it.getString("name")
-                            find_context.text = it.getString("context")
+                            find_name.text = "이름: \t" + it.getString("name")
+                            find_context.text = "상태메세지: \t" + it.getString("context")
+                            found_friend.visibility = View.VISIBLE
+                            add_button.visibility = View.VISIBLE
                         }
                     },
                     Response.ErrorListener { Log.d("check", "got error") }

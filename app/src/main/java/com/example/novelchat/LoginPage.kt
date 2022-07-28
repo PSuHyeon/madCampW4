@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -37,6 +38,8 @@ class LoginPage : AppCompatActivity() {
                 Toast.makeText(this, "빈칸을 모두 채워주세요", Toast.LENGTH_SHORT).show()
             }
             else{
+                id_text.onEditorAction(EditorInfo.IME_ACTION_DONE)
+                pass_text.onEditorAction(EditorInfo.IME_ACTION_DONE)
                 val url = "http://192.249.18.125:80/login/" + id_text.text.toString() + "," + pass_text.text.toString()
 
                 val request = object : JsonObjectRequest(
@@ -48,9 +51,12 @@ class LoginPage : AppCompatActivity() {
                             myImage = StringToBitmap(it.getString("image"))!!
                             intent.putExtra("context", it.getString("context"))
                             intent.putExtra("name", it.getString("name"))
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
+                            finish()
 
                     }, Response.ErrorListener {
+                        Toast.makeText(applicationContext, "Log in failed", Toast.LENGTH_SHORT).show();
 
                     }
                 ) {
