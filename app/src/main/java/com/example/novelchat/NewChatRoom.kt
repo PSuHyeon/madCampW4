@@ -288,6 +288,7 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             subScriberTv.setTextColor(resources.getColor(R.color.gray))
             subScriberTv.setBackgroundResource(R.drawable.item_bg_on)
             //TODO 현재 모드에 따라 반영 마이크 끄기 등
+            stopRecognition()
             isCallMode = true
 //            mytext.text = "..."
 //            yourtext.text = "..."
