@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
@@ -206,7 +208,9 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         holder.profile_id.text = array.get(position).id
         holder.profile_token.text = array.get(position).token
         if (array.get(position).onoff == "off"){
-            holder.profile_onoff.setBackgroundColor(Color.RED)
+//            holder.profile_onoff.setBackgroundColor(Color.RED)
+            holder.profile_onoff.visibility = View.GONE
+            holder.call_friend_btn.visibility = View.VISIBLE
         }
         holder.call_friend_btn.setOnClickListener{
             Log.d("tooken--", "call-friend-btn")
@@ -233,12 +237,13 @@ class friendAdapter(val context: Context, val array: ArrayList<friend>): Recycle
         val profile_id = itemView.findViewById<TextView>(R.id.profile_id)
         val profile_token = itemView.findViewById<TextView>(R.id.profile_token)
         val profile_onoff = itemView.findViewById<CardView>(R.id.profile_onoff)
-        val call_friend_btn = itemView.findViewById<Button>(R.id.btnCallFriend)
+        val call_friend_btn = itemView.findViewById<CardView>(R.id.btnCallFriend)
         init{
             itemView.setOnClickListener {
                 com.example.novelchat.yourImage = (profile_image.getDrawable() as BitmapDrawable).getBitmap()
                 val intent = Intent(context, NewChatRoom::class.java)
                 intent.putExtra("id1", profile_id.text.toString())
+                intent.putExtra("yourName", profile_name.text.toString())
                 context.startActivity(intent)
             }
 

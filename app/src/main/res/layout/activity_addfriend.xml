@@ -6,73 +6,151 @@
     android:layout_height="match_parent"
     tools:context=".Addfriend"
     android:orientation="vertical"
-    android:weightSum="10"
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;"
+            android:layout_marginRight="15dp"
+            android:textSize="22sp"
+            android:fontFamily="@font/okddung"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="친구 찾기"
+            android:textSize="22sp"
+            android:fontFamily="@font/nanumsquareroundeb"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="10"
+        android:layout_margin="20dp"
         >
         <EditText
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="8"
-            android:hint="아이이를 입력하세요"
+            android:hint="친구 아이디"
+            android:paddingHorizontal="10dp"
             android:id="@+id/enter_id"
             />
         <Button
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="찾기"
-            android:autoSizeTextType="uniform"
+            android:textSize="20sp"
             android:id="@+id/find_button"
             />
 
-
     </LinearLayout>
 
-    <ImageView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/found_friend"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4.5"
-        android:id="@+id/find_image"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/find_name"
-        android:gravity="center"
-        android:text="이름"
-        android:autoSizeTextType="uniform"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:id="@+id/find_context"
-        android:text="상태메세지"/>
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/find_add"
-        android:text="추가하기"
-        android:gravity="center"
-        android:layout_gravity="center"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:id="@+id/find_id"
-        android:gravity="right"
-        android:autoSizeTextType="uniform"
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        android:visibility="invisible"
+        >
+        <ImageView
+            android:src="@drawable/gradient_yellow2green"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="10"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            >
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="20dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp"
+                android:layout_gravity="center"
+                >
+                <ImageView
+                    android:id="@+id/find_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    />
+            </androidx.cardview.widget.CardView>
 
-
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:id="@+id/find_id"
+                        android:background="@drawable/rounded_corner"
+                        android:paddingHorizontal="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/nanumsquareroundb"
+                        android:gravity="center_vertical"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:id="@+id/find_name"
+                        android:background="@drawable/rounded_corner"
+                        android:paddingHorizontal="20dp"
+                        android:fontFamily="@font/nanumsquareroundb"
+                        android:gravity="center_vertical"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:id="@+id/find_context"
+                        android:background="@drawable/rounded_corner"
+                        android:paddingHorizontal="20dp"
+                        android:fontFamily="@font/nanumsquareroundb"
+                        android:gravity="center_vertical"
+                        />
+                    <Button
+                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="추가하기"
+                        android:fontFamily="@font/nanumsquareroundeb"
+                        android:textSize="20dp"
+                        android:layout_marginHorizontal="80dp"
+                        android:padding="10dp"
+                        android:id="@+id/find_add"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:visibility="invisible"
+                        />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
