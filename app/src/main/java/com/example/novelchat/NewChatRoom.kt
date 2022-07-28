@@ -476,10 +476,11 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
         val tempTime = System.currentTimeMillis()
         val intervalTime: Long = tempTime - presstime
         if (intervalTime in 0..TIMEOUT) {
+            stopRecognition()
             finish()
+
         } else {
             presstime = tempTime
-            stopRecognition()
             Toast.makeText(applicationContext, "한번더 누르시면 대화가 종료됩니다", Toast.LENGTH_SHORT).show()
         }
     }
