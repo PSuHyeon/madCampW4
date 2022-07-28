@@ -30,6 +30,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.slider.Slider
 import com.google.gson.Gson
@@ -292,7 +294,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             isCallMode = true
 //            mytext.text = "..."
 //            yourtext.text = "..."
-            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            yourState.setImageResource(R.drawable.ic_baseline_volume_off_24)
+//            Glide.with(this).load(R.raw.blikingred).override(560, 560).into(yourState)
+            Glide.with(this).load(R.raw.blikingred).into(yourState)
             myState.setImageResource(R.drawable.ic_baseline_volume_off_24)
             myStateText.text = "OFF"
             mSocket.emit("voice_chat_init", USERACCOUNT + "," + your_id)
@@ -305,7 +309,9 @@ class NewChatRoom : AppCompatActivity(), RecognitionListener {
             isCallMode = false
 //            mytext.text = ""
 //            yourtext.text = ""
-            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+//            yourState.setImageResource(R.drawable.ic_baseline_mic_off_24)
+            Glide.with(this).load(R.raw.blikingred).into(yourState)
+
             myState.setImageResource(R.drawable.ic_baseline_mic_off_24)
             myStateText.text = "OFF"
             mRtcEngine?.leaveChannel()
