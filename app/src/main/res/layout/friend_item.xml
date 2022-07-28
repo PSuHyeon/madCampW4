@@ -34,6 +34,7 @@
                 app:cardBackgroundColor="@color/greenMain"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="2dp"
+                android:id="@+id/profile_onoff"
                 >
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView

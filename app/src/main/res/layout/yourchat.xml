@@ -1,43 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="vertical"
-    android:weightSum="10"
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="80dp"-->
+<!--    android:orientation="vertical"-->
+<!--    android:weightSum="10"-->
+<!--    >-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="4"-->
+<!--        android:orientation="horizontal"-->
+<!--        >-->
+<!--        <ImageView-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:id="@+id/chat_your_profile"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:id="@+id/chat_your_name"/>-->
+
+<!--    </LinearLayout>-->
+
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="4"-->
+<!--        android:text="여기에 입력될 예정"-->
+<!--        android:id="@+id/chat_your_text"-->
+<!--        android:layout_marginLeft="20dp"/>-->
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="2"-->
+<!--        android:text="시간"-->
+<!--        android:id="@+id/chat_your_time"-->
+<!--        android:layout_marginLeft="50dp"/>-->
+
+
+<!--</LinearLayout>-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:orientation="horizontal"
-        >
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:id="@+id/chat_your_profile"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/chat_your_name"/>
 
-    </LinearLayout>
-
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/chat_my_text_wrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/greenMain"
+    app:strokeWidth="2dp"
+    android:theme="@style/Theme.MaterialComponents.Light"
+    >
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:text="여기에 입력될 예정"
         android:id="@+id/chat_your_text"
-        android:layout_marginLeft="20dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="16dp"
+        android:gravity="right"
+        android:text="여기에 입력될 예정"
+        android:textSize="15dp"
+        android:fontFamily="@font/nanumsquareroundr"
+        android:textColor="@color/gray"
+        />
+
+</com.google.android.material.card.MaterialCardView>
+
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:text="시간"
         android:id="@+id/chat_your_time"
-        android:layout_marginLeft="50dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/chat_my_text_wrapper"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/chat_my_text_wrapper"
+        android:fontFamily="@font/nanumsquareroundr"
+        android:gravity="right"
+        android:text="시간"
+        android:textColor="#888888"
+        android:textSize="10dp" />
 
 
-</LinearLayout>
+</RelativeLayout>
